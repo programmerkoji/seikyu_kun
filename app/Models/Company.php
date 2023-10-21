@@ -14,14 +14,7 @@ class Company extends Model
         'post_code',
         'address',
         'tel',
-        'email',
         'ceo_name',
-        'stuff_name',
         'note',
     ];
-
-    public function posting_applications()
-    {
-        return $this->hasMany(PostingApplication::class);
-    }
 }
