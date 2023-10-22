@@ -23,8 +23,10 @@ class InvoiceFactory extends Factory
         $billing_date_copy = $billing_date->copy();
         $posting_date = $billing_date_copy->subMonths(2);
         $posting_start = $this->faker->dateTimeBetween($posting_date, $date);
+        $company_ids = Company::pluck('id')->toArray();
+
         return [
-            'company_id' => Company::factory(),
+            'company_id' => $this->faker->randomElement($company_ids),
             'billing_date' => $date,
             'posting_start' => $posting_start,
             'posting_end' => $this->faker->dateTimeBetween($posting_start, '4 week'),
