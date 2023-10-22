@@ -17,4 +17,9 @@ class Company extends Model
         'ceo_name',
         'note',
     ];
+
+    public function invoices()
+    {
+        return $this->hasMany(Invoice::class);
+    }
 }
