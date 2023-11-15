@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Company;
 use App\Models\Invoice;
 use Illuminate\Http\Request;
 
@@ -26,7 +27,8 @@ class InvoiceController extends Controller
      */
     public function create()
     {
-        //
+        $companies = Company::orderBy('id', 'desc')->get();
+        return view('invoice.create', compact('companies'));
     }
 
     /**
