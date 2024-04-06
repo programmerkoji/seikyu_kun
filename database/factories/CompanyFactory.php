@@ -23,6 +23,7 @@ class CompanyFactory extends Factory
             'address' => $this->faker->streetAddress,
             'tel' => $this->faker->phoneNumber,
             'ceo_name' => $this->faker->userName,
+            'responsible_person_name' => $this->faker->userName,
             'note' => $this->faker->optional(0.4)->realText,
             'created_at' => $date,
             'updated_at' => $date,
