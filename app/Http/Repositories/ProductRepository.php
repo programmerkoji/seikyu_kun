@@ -42,8 +42,8 @@ class ProductRepository
     {
         try {
             DB::beginTransaction();
-                $product = new Product;
-                $product->fill($data)->save();
+            $product = new Product;
+            $product->fill($data)->save();
             DB::commit();
         } catch (\Throwable $th) {
             Log::error($th);
@@ -55,9 +55,22 @@ class ProductRepository
     {
         try {
             DB::beginTransaction();
-                $this->findByOne($product_id)
-                    ->fill($data)
-                    ->save();
+            $this->findByOne($product_id)
+                ->fill($data)
+                ->save();
+            DB::commit();
+        } catch (\Throwable $th) {
+            Log::error($th);
+            DB::rollback();
+        }
+    }
+
+    public function destroy($product_id)
+    {
+        try {
+            DB::beginTransaction();
+            $this->findByOne($product_id)
+                ->delete();
             DB::commit();
         } catch (\Throwable $th) {
             Log::error($th);

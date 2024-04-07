@@ -33,8 +33,14 @@
                                         {{ number_format($product->price) }}円
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <button type="button" onclick="location.href='{{ route('product.edit', ['product' => $product->id]) }}'" class="focus:outline-none text-white bg-indigo-600 hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-indigo-900">編集</button>
-                                        <button type="button" class="focus:outline-none text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">削除</button>
+                                        <div class="flex gap-2">
+                                            <button type="button" onclick="location.href='{{ route('product.edit', ['product' => $product->id]) }}'" class="focus:outline-none text-white bg-indigo-600 hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-indigo-900">編集</button>
+                                            <form id="delete_{{ $product->id }}" action="{{route('product.destroy', ['product' => $product->id])}}" method="post">
+                                            @csrf
+                                            @method('DELETE')
+                                                <button type="button" data-id="{{ $product->id }}" onclick="deletePost(this)" class="focus:outline-none text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">削除</button>
+                                            </form>
+                                        </div>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -45,6 +51,15 @@
             </div>
         </div>
     </div>
+    <script>
+        function deletePost(e) {
+            console.log(e);
+            'use strict';
+            if (confirm('本当に削除してもよいですか？')) {
+                document.getElementById('delete_' + e.dataset.id).submit();
+            }
+        }
+    </script>
     @if (session('message'))
     <script>
         $(function() {

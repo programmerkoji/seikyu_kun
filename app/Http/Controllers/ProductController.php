@@ -61,4 +61,12 @@ class ProductController extends Controller
         ->route('product.index')
         ->with('message', '商品を編集しました');
     }
+
+    public function destroy(int $product_id)
+    {
+        $this->productRepository->destroy($product_id);
+        return redirect()
+        ->route('product.index')
+        ->with('message', '商品を削除しました');
+    }
 }
