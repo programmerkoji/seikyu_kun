@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name')->comment('商品名');
             $table->integer('price')->comment('金額');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
