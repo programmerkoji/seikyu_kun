@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\PostingController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,6 +33,8 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('/company', CompanyController::class)->except('show');
     Route::resource('/invoice', InvoiceController::class);
+    Route::resource('/posting', PostingController::class);
+    Route::resource('/product', ProductController::class)->except('show');
 });
 
 require __DIR__.'/auth.php';
