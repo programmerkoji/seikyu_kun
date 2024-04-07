@@ -20,12 +20,19 @@ class ViewListProductService
     }
 
     /**
-     *
-     *
      * @return void
      */
     public function all()
     {
         return $this->productRepository->getAll();
+    }
+
+    /**
+     * @param int
+     * @return void
+     */
+    public function findByOne(int $product_id)
+    {
+        return $this->productRepository->findByOne($product_id);
     }
 }

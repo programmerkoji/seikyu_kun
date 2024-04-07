@@ -33,6 +33,7 @@
                                         {{ number_format($product->price) }}円
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
+                                        <button type="button" onclick="location.href='{{ route('product.edit', ['product' => $product->id]) }}'" class="focus:outline-none text-white bg-indigo-600 hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-indigo-900">編集</button>
                                         <button type="button" class="focus:outline-none text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">削除</button>
                                     </td>
                                 </tr>
