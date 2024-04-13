@@ -14,9 +14,9 @@ class ViewListProductService
     /**
      * @param ProductRepository $procuctRepository
      */
-    public function __construct(ProductRepository $productRepository)
+    public function __construct()
     {
-        $this->productRepository = $productRepository;
+        $this->productRepository = new ProductRepository();
     }
 
     /**

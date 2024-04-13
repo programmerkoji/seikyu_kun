@@ -14,13 +14,10 @@ class ProductController extends Controller
     protected $viewListProductService;
     protected $productRepository;
 
-    /**
-     * @param ViewListProductService $viewListProductService
-     */
-    public function __construct(ViewListProductService $viewListProductService, ProductRepository $productRepository)
+    public function __construct()
     {
-        $this->viewListProductService = $viewListProductService;
-        $this->productRepository = $productRepository;
+        $this->viewListProductService = new ViewListProductService();
+        $this->productRepository = new ProductRepository();
     }
 
     /**

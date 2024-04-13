@@ -25,7 +25,7 @@ class ProductRequest extends FormRequest
     {
         return [
             'name' => ['required'],
-            'price' => ['required', 'integer'],
+            'base_price' => ['required', 'integer'],
         ];
     }
 
@@ -33,8 +33,8 @@ class ProductRequest extends FormRequest
     {
         return [
             'name.required' => '商品名は必須です。',
-            'price.required' => '金額は必須です。',
-            'price.integer' => '金額は半角の整数で入力してください。',
+            'base_price.required' => '金額は必須です。',
+            'base_price.integer' => '金額は半角の整数で入力してください。',
         ];
     }
 }

@@ -30,7 +30,7 @@
                                         {{ $product->name }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        {{ number_format($product->price) }}円
+                                        {{ number_format($product->base_price) }}円
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="flex gap-2">

@@ -2,35 +2,45 @@
 
 namespace App\Http\Repositories;
 
+use App\Models\Posting;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-class ProductRepository
+class PostingRepository
 {
+    /**
+     * @var Posting
+     */
+    protected $posting;
     /**
      * @var Product
      */
     protected $product;
 
+    /**
+     * @param Posting
+     * @param Product
+     */
     public function __construct()
     {
+        $this->posting = new Posting();
         $this->product = new Product();
     }
 
     /**
-     * @return Collection
+     * @return Illuminate\Pagination\LengthAwarePaginator
      */
-    public function getAll(): Collection
+    public function getAll()
     {
-        return $this->product->get();
+        return $this->posting->with('product')->orderBy('created_at', 'desc')->paginate(10);
     }
 
     /**
      * @return Collection
      */
-    public function findByOne(int $product_id): Product
+    public function findByOne(int $product_id): Posting
     {
         return $this->product->findOrFail($product_id);
     }
@@ -39,7 +49,7 @@ class ProductRepository
     {
         try {
             DB::beginTransaction();
-            $product = new Product;
+            $product = new Posting;
             $product->fill($data)->save();
             DB::commit();
         } catch (\Throwable $th) {
