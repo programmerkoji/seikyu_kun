@@ -26,4 +26,9 @@ class Posting extends Model
     {
         return $this->belongsTo(Product::class);
     }
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
 }

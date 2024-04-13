@@ -18,6 +18,11 @@ class Company extends Model
         'note',
     ];
 
+    public function postings()
+    {
+        return $this->hasMany(Posting::class);
+    }
+
     public function invoices()
     {
         return $this->hasMany(Invoice::class);

@@ -6,6 +6,7 @@ namespace Database\Seeders;
 
 use App\Models\Company;
 use App\Models\Invoice;
+use App\Models\Posting;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -21,8 +22,9 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UserSeeder::class,
             ProductSeeder::class,
-            PostingSeeder::class,
+            // PostingSeeder::class,
         ]);
+        Posting::factory(30)->create();
         // Invoice::factory(100)->create();
     }
 }
