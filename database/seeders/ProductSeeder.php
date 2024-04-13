@@ -19,22 +19,22 @@ class ProductSeeder extends Seeder
             [
                 'id' => 1,
                 'name' => '北関東Aプラン 4週間',
-                'price' => '28000',
+                'base_price' => '28000',
             ],
             [
                 'id' => 2,
                 'name' => '北関東Bプラン 4週間',
-                'price' => '41000',
+                'base_price' => '41000',
             ],
             [
                 'id' => 3,
                 'name' => '北関東Cプラン 2週間',
-                'price' => '40000',
+                'base_price' => '40000',
             ],
             [
                 'id' => 4,
                 'name' => '北関東Dプラン 2週間',
-                'price' => '56000',
+                'base_price' => '56000',
             ]
         ]);
     }

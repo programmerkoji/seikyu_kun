@@ -16,7 +16,7 @@ class Product extends Model
     protected $fillable = [
         'id',
         'name',
-        'price',
+        'base_price',
     ];
 
     public function postings()

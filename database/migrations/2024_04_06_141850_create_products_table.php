@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('name')->comment('商品名');
-            $table->integer('price')->comment('金額');
+            $table->integer('base_price')->comment('基本料金');
             $table->timestamps();
             $table->softDeletes();
         });

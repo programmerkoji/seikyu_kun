@@ -23,9 +23,9 @@ class PostingSeeder extends Seeder
                 'posting_term' => 2,
                 'posting_start' => '2024-03-15',
                 'quantity' => 1,
+                'content' => '感謝キャンペーン適用',
                 'is_special_price' => 0,
-                'special_price' => null,
-                'total_price' => 28000,
+                'price' => 28000,
                 'note' => ''
             ],
             [
@@ -35,9 +35,9 @@ class PostingSeeder extends Seeder
                 'posting_term' => 2,
                 'posting_start' => '2024-03-04',
                 'quantity' => 2,
+                'content' => '春の感謝キャンペーン適用',
                 'is_special_price' => 1,
-                'special_price' => 40000,
-                'total_price' => 40000,
+                'price' => 40000,
                 'note' => '中島さん承認済み'
             ]
         ]);

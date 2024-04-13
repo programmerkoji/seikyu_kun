@@ -16,9 +16,9 @@ class Posting extends Model
         'posting_term',
         'posting_start',
         'quantity',
+        'content',
         'is_special_price',
-        'special_price',
-        'total_price',
+        'price',
         'note',
     ];
 
