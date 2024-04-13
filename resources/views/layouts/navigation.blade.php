@@ -15,6 +15,9 @@
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('company.index')" :active="request()->routeIs('company.index')">企業一覧</x-nav-link>
                 </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('product.index')" :active="request()->routeIs('product.index')">商品一覧</x-nav-link>
+                </div>
             </div>
 
             <!-- Settings Dropdown -->
@@ -69,7 +72,10 @@
             <x-responsive-nav-link :href="route('invoice.index')" :active="request()->routeIs('invoice.index')">請求一覧</x-responsive-nav-link>
         </div>
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('company.index')" :active="request()->routeIs('company.index')">請求一覧</x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('company.index')" :active="request()->routeIs('company.index')">企業一覧</x-responsive-nav-link>
+        </div>
+        <div class="pt-2 pb-3 space-y-1">
+            <x-responsive-nav-link :href="route('product.index')" :active="request()->routeIs('product.index')">商品一覧</x-responsive-nav-link>
         </div>
 
         <!-- Responsive Settings Options -->
