@@ -40,17 +40,17 @@ class PostingRepository
     /**
      * @return Collection
      */
-    public function findByOne(int $product_id): Posting
+    public function findByOne(int $posting_id): Posting
     {
-        return $this->product->findOrFail($product_id);
+        return $this->posting->with('product')->findOrFail($posting_id);
     }
 
     public function create(array $data)
     {
         try {
             DB::beginTransaction();
-            $product = new Posting;
-            $product->fill($data)->save();
+            $posting = new Posting;
+            $posting->fill($data)->save();
             DB::commit();
         } catch (\Throwable $th) {
             Log::error($th);
@@ -58,11 +58,11 @@ class PostingRepository
         }
     }
 
-    public function update(array $data, $product_id)
+    public function update(array $data, $posting_id)
     {
         try {
             DB::beginTransaction();
-            $this->findByOne($product_id)
+            $this->findByOne($posting_id)
                 ->fill($data)
                 ->save();
             DB::commit();

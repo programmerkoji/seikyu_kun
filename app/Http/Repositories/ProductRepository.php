@@ -28,11 +28,19 @@ class ProductRepository
     }
 
     /**
-     * @return Collection
+     * @return Product
      */
     public function findByOne(int $product_id): Product
     {
         return $this->product->findOrFail($product_id);
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getIdAndName(): Collection
+    {
+        return $this->product->select('id', 'name')->get();
     }
 
     public function create(array $data)
