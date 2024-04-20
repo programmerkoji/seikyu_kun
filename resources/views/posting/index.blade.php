@@ -10,9 +10,10 @@
                     <div class="mb-4 flex">
                         <button type="button" onclick="location.href='{{ route('posting.create') }}'" class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-blue-700 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">新規登録</button>
                     </div>
-                    <div class="mb-4">
+                    <x-pagination :pagination="$postings" />
+                    {{-- <div class="mb-4">
                         {{$postings->links("vendor.pagination.tailwind")}}
-                    </div>
+                    </div> --}}
                     <div class="relative overflow-x-auto">
                         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
