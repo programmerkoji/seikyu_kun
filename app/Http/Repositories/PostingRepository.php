@@ -72,11 +72,11 @@ class PostingRepository
         }
     }
 
-    public function destroy($product_id)
+    public function destroy($posting_id)
     {
         try {
             DB::beginTransaction();
-            $this->findByOne($product_id)
+            $this->findByOne($posting_id)
                 ->delete();
             DB::commit();
         } catch (\Throwable $th) {

@@ -79,4 +79,15 @@ class PostingController extends Controller
         ->route('posting.index')
         ->with('message', '掲載を編集しました');
     }
+
+    /**
+     * @param int $posting_id
+     */
+    public function destroy(int $posting_id)
+    {
+        $this->postingRepository->destroy($posting_id);
+        return redirect()
+        ->route('posting.index')
+        ->with('message', '掲載を削除しました');
+    }
 }
