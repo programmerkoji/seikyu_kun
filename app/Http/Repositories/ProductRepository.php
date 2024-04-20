@@ -20,11 +20,11 @@ class ProductRepository
     }
 
     /**
-     * @return Collection
+     * @return Illuminate\Pagination\LengthAwarePaginator
      */
-    public function getAll(): Collection
+    public function getAll()
     {
-        return $this->product->get();
+        return $this->product->paginate(config('constants.paginate'));
     }
 
     /**

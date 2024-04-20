@@ -34,7 +34,7 @@ class PostingRepository
      */
     public function getAll()
     {
-        return $this->posting->with('product')->orderBy('created_at', 'desc')->paginate(10);
+        return $this->posting->with('product')->orderBy('created_at', 'desc')->paginate(config('constants.pagination'));
     }
 
     /**

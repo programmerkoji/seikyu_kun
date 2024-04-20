@@ -10,6 +10,9 @@
                     <div class="mb-4 flex">
                         <button type="button" onclick="location.href='{{ route('posting.create') }}'" class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-blue-700 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">新規登録</button>
                     </div>
+                    <div class="mb-4">
+                        {{$postings->links("vendor.pagination.tailwind")}}
+                    </div>
                     <div class="relative overflow-x-auto">
                         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -66,8 +69,8 @@
                                         <div class="flex gap-2">
                                             <button type="button" onclick="location.href='{{ route('posting.edit', ['posting' => $posting->id]) }}'" class="focus:outline-none text-white bg-indigo-600 hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-indigo-900">編集</button>
                                             <form id="delete_{{ $posting->id }}" action="{{route('posting.destroy', ['posting' => $posting->id])}}" method="post">
-                                            @csrf
-                                            @method('DELETE')
+                                                @csrf
+                                                @method('DELETE')
                                                 <button type="button" data-id="{{ $posting->id }}" onclick="deletePost(this)" class="focus:outline-none text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">削除</button>
                                             </form>
                                         </div>
