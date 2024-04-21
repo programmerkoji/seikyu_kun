@@ -46,48 +46,36 @@ class CompanyController extends Controller
         return redirect()->route('company.index')->with('message', '企業を登録しました');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+ /**
+     * @param integer $company_id
+     * @return \Illuminate\Contracts\View\View
      */
-    public function show($id)
+    public function edit(int $company_id)
     {
-        //
+        $company = $this->companyRepository->findByOne($company_id);
+        return view('company.edit', compact('company'));
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param CompanyRequest $request
+     * @param integer $company_id
      */
-    public function edit($id)
+    public function update(CompanyRequest $request, int $company_id)
     {
-        //
+        $this->companyRepository->update($request->toArray(), $company_id);
+        return redirect()
+        ->route('company.index')
+        ->with('message', '企業を編集しました');
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $company_id
      */
-    public function update(Request $request, $id)
+    public function destroy(int $company_id)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        $this->companyRepository->destroy($company_id);
+        return redirect()
+        ->route('company.index')
+        ->with('message', '企業を削除しました');
     }
 }

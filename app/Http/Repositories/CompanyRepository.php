@@ -52,11 +52,11 @@ class CompanyRepository
         }
     }
 
-    public function update(array $data, $posting_id)
+    public function update(array $data, $company_id)
     {
         try {
             DB::beginTransaction();
-            $this->findByOne($posting_id)
+            $this->findByOne($company_id)
                 ->fill($data)
                 ->save();
             DB::commit();
@@ -66,11 +66,11 @@ class CompanyRepository
         }
     }
 
-    public function destroy($posting_id)
+    public function destroy($company_id)
     {
         try {
             DB::beginTransaction();
-            $this->findByOne($posting_id)
+            $this->findByOne($company_id)
                 ->delete();
             DB::commit();
         } catch (\Throwable $th) {

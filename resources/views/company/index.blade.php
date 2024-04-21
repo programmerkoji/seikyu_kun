@@ -40,8 +40,14 @@
                                         {{ $company->tel }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <button type="button" class="text-white bg-blue-400 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-blue-300 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">編集</button>
-                                        <button type="button" class="focus:outline-none text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">削除</button>
+                                        <div class="flex gap-2">
+                                            <button type="button" onclick="location.href='{{ route('company.edit', ['company' => $company->id]) }}'" class="text-white bg-blue-400 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-blue-300 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">編集</button>
+                                            <form id="delete_{{ $company->id }}" action="{{route('company.destroy', ['company' => $company->id])}}" method="post">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="button" data-id="{{ $company->id }}" onclick="deletePost(this)" class="focus:outline-none text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">削除</button>
+                                            </form>
+                                        </div>
                                     </td>
                                 </tr>
                                 @endforeach

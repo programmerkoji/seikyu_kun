@@ -7,8 +7,9 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    <form action="{{ route('posting.store') }}" method="post">
+                    <form action="{{ route('posting.update', ['posting' => $posting->id]) }}" method="post">
                         @csrf
+                        @method('PUT')
                         <div class="flex flex-col gap-4 md:flex-row mb-4">
                             <div class="w-full">
                                 <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">企業名</label>
