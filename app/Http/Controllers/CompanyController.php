@@ -2,25 +2,33 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Repositories\CompanyRepository;
+use App\Http\Requests\CompanyRequest;
 use App\Models\Company;
 use Illuminate\Http\Request;
 
 class CompanyController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
+     * @var CompanyRepository
+     */
+    protected $companyRepository;
+
+    public function __construct()
+    {
+        $this->companyRepository = new CompanyRepository();
+    }
+
+    /**
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $companies = Company::orderBy('name', 'desc')->paginate(config('constants.pagination'));
+        $companies = $this->companyRepository->getAll();
         return view('company.index', compact('companies'));
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
      * @return \Illuminate\Http\Response
      */
     public function create()
@@ -29,14 +37,13 @@ class CompanyController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\CompanyRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CompanyRequest $request)
     {
-        //
+        $this->companyRepository->create($request->toArray());
+        return redirect()->route('company.index')->with('message', '企業を登録しました');
     }
 
     /**

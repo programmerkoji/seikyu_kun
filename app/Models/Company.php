@@ -15,6 +15,7 @@ class Company extends Model
         'address',
         'tel',
         'ceo_name',
+        'responsible_person_name',
         'note',
     ];
 

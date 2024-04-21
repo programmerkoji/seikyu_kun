@@ -52,4 +52,20 @@
             </div>
         </div>
     </div>
+    <script>
+        function deletePost(e) {
+            console.log(e);
+            'use strict';
+            if (confirm('本当に削除してもよいですか？')) {
+                document.getElementById('delete_' + e.dataset.id).submit();
+            }
+        }
+    </script>
+    @if (session('message'))
+    <script>
+        $(function() {
+            toastr.success('{{ session("message") }}')
+        });
+    </script>
+    @endif
 </x-app-layout>
