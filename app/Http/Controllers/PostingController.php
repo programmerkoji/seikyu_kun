@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Repositories\PostingRepository;
 use App\Http\Repositories\ProductRepository;
 use App\Http\Requests\PostingRequest;
+use App\Http\Services\ViewListPostingService;
 use App\Models\Company;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -19,19 +20,30 @@ class PostingController extends Controller
      * @var ProductRepository
      */
     protected $productRepository;
+    /**
+     * @var ViewListPostingService
+     */
+    protected $viewListPostingService;
 
     public function __construct()
     {
         $this->postingRepository = new PostingRepository();
         $this->productRepository = new ProductRepository();
+        $this->viewListPostingService = new ViewListPostingService();
     }
 
     /**
      * @return \Illuminate\Contracts\View\View
      */
-    public function index()
+    public function index(Request $request)
     {
-        $postings = $this->postingRepository->getAll();
+        $keyword = $request->keyword;
+        if ($keyword) {
+            $query = $this->viewListPostingService->search($keyword);
+        } else {
+            $query = $this->viewListPostingService->all();
+        }
+        $postings = $query->paginate(config('constants.pagination'))->withQueryString();
         return view('posting.index', compact('postings'));
     }
 

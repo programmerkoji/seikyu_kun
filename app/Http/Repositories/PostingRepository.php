@@ -34,7 +34,17 @@ class PostingRepository
      */
     public function getAll()
     {
-        return $this->posting->with('product')->orderBy('created_at', 'desc')->paginate(config('constants.pagination'));
+        return $this->posting->with('product')->orderBy('created_at', 'desc');
+    }
+    /**
+     * @return Illuminate\Pagination\LengthAwarePaginator
+     */
+    public function search(string $keyword)
+    {
+        return $this->posting->with('product')->where(function ($q) use($keyword) {
+            $q->where('content', 'like', '%' . $keyword . '%');
+            $q->orWhere('note', 'like', '%' . $keyword . '%');
+        })->orderBy('created_at', 'desc');
     }
 
     /**

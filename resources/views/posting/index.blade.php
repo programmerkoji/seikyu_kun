@@ -7,13 +7,16 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    <div class="mb-4 flex">
-                        <button type="button" onclick="location.href='{{ route('posting.create') }}'" class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-blue-700 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">新規登録</button>
+                    <div class="mb-4 flex justify-between">
+                        <div>
+                            <button type="button" onclick="location.href='{{ route('posting.create') }}'" class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-blue-700 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">新規登録</button>
+                        </div>
+                        <form action="{{route('posting.index')}}" method="get" class="flex items-center gap-2">
+                            <input type="search" name="keyword" value="{{Request::get('keyword')}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="キーワードで検索">
+                            <button type="submit" class="focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 border border-gray-300 hover:opacity-80">検索</button>
+                        </form>
                     </div>
                     <x-pagination :pagination="$postings" />
-                    {{-- <div class="mb-4">
-                        {{$postings->links("vendor.pagination.tailwind")}}
-                    </div> --}}
                     <div class="relative overflow-x-auto">
                         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -28,7 +31,7 @@
                                         掲載内容<br>（キャンペーンなど）
                                     </th>
                                     <th scope="col" class="px-6 py-3 whitespace-nowrap">
-                                        掲載日
+                                        掲載開始日
                                     </th>
                                     <th scope="col" class="px-6 py-3 whitespace-nowrap">
                                         掲載期間
