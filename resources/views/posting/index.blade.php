@@ -90,7 +90,6 @@
     </div>
     <script>
         function deletePost(e) {
-            console.log(e);
             'use strict';
             if (confirm('本当に削除してもよいですか？')) {
                 document.getElementById('delete_' + e.dataset.id).submit();

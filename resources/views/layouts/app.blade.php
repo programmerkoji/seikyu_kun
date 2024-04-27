@@ -9,11 +9,12 @@
         <title>{{ config('app.name', 'Laravel') }}</title>
 
         <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/micromodal.css') }}">
         {{-- toastr --}}
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css">
 
         <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/flatpickr.js'])
+        @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/flatpickr.js', 'resources/js/micromodal.js'])
         {{-- toastr --}}
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>

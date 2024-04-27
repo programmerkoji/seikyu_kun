@@ -34,16 +34,20 @@ class PostingRepository
      */
     public function getAll()
     {
-        return $this->posting->with('product')->orderBy('created_at', 'desc');
+        return $this->posting->with('product', 'company')->orderBy('created_at', 'desc');
     }
     /**
      * @return Illuminate\Pagination\LengthAwarePaginator
      */
     public function search(string $keyword)
     {
-        return $this->posting->with('product')->where(function ($q) use($keyword) {
+        return $this->posting->with('product', 'company')->where(function ($q) use($keyword) {
             $q->where('content', 'like', '%' . $keyword . '%');
             $q->orWhere('note', 'like', '%' . $keyword . '%');
+        })->orWhereHas('company', function ($q) use ($keyword) {
+            $q->where('name', 'like', '%' . $keyword . '%');
+        })->orWhereHas('product', function ($q) use ($keyword) {
+            $q->where('name', 'like', '%' . $keyword . '%');
         })->orderBy('created_at', 'desc');
     }
 
