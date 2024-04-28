@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Repositories\CompanyRepository;
 use App\Http\Repositories\PostingRepository;
 use App\Http\Repositories\ProductRepository;
 use App\Http\Requests\PostingRequest;
 use App\Http\Services\ViewListPostingService;
 use App\Models\Company;
-use App\Models\Product;
 use Illuminate\Http\Request;
 
 class PostingController extends Controller
@@ -21,6 +21,10 @@ class PostingController extends Controller
      */
     protected $productRepository;
     /**
+     * @var CompanyRepository
+     */
+    protected $companyRepository;
+    /**
      * @var ViewListPostingService
      */
     protected $viewListPostingService;
@@ -29,6 +33,7 @@ class PostingController extends Controller
     {
         $this->postingRepository = new PostingRepository();
         $this->productRepository = new ProductRepository();
+        $this->companyRepository = new CompanyRepository();
         $this->viewListPostingService = new ViewListPostingService();
     }
 
@@ -76,7 +81,7 @@ class PostingController extends Controller
     {
         $posting = $this->postingRepository->findByOne($posting_id);
         $products = $this->productRepository->getIdAndName();
-        $companies = Company::select('id', 'name')->get();
+        $companies = $this->companyRepository->getIdAndName();
         return view('posting.edit', compact('posting', 'products', 'companies'));
     }
 

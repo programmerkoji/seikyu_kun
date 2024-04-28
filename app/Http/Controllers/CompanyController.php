@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Repositories\CompanyRepository;
 use App\Http\Requests\CompanyRequest;
-use App\Models\Company;
+use App\Http\Services\ViewListCompanyService;
 use Illuminate\Http\Request;
 
 class CompanyController extends Controller
@@ -14,17 +14,29 @@ class CompanyController extends Controller
      */
     protected $companyRepository;
 
+    /**
+     * @var ViewListCompanyService
+     */
+    protected $viewListCompanyService;
+
     public function __construct()
     {
         $this->companyRepository = new CompanyRepository();
+        $this->viewListCompanyService = new ViewListCompanyService();
     }
 
     /**
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $companies = $this->companyRepository->getAll();
+        $keyword = $request->keyword;
+        if ($keyword) {
+            $query = $this->viewListCompanyService->search($keyword);
+        } else {
+            $query = $this->viewListCompanyService->all();
+        }
+        $companies = $query->paginate(config('constants.pagination'))->withQueryString();
         return view('company.index', compact('companies'));
     }
 
@@ -46,7 +58,7 @@ class CompanyController extends Controller
         return redirect()->route('company.index')->with('message', '企業を登録しました');
     }
 
- /**
+    /**
      * @param integer $company_id
      * @return \Illuminate\Contracts\View\View
      */

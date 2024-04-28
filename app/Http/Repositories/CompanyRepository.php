@@ -24,11 +24,30 @@ class CompanyRepository
     }
 
     /**
-     * @return Illuminate\Pagination\LengthAwarePaginator
+     * @return @return Illuminate\Database\Eloquent\Builder
      */
     public function getAll()
     {
-        return $this->company->orderBy('created_at', 'desc')->paginate(config('constants.pagination'));
+        return $this->company->orderBy('created_at', 'desc');
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getIdAndName(): Collection
+    {
+        return $this->company->select('id', 'name')->get();
+    }
+
+    /**
+     * @return Illuminate\Database\Eloquent\Builder
+     */
+    public function search(string $keyword)
+    {
+        return $this->company->where(function ($q) use($keyword) {
+            $q->where('name', 'like', '%' . $keyword . '%');
+            $q->orWhere('tel', 'like', '%' . $keyword . '%');
+        })->orderBy('created_at', 'desc');
     }
 
     /**

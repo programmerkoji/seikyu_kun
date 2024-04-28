@@ -30,14 +30,14 @@ class PostingRepository
     }
 
     /**
-     * @return Illuminate\Pagination\LengthAwarePaginator
+     * @return Illuminate\Database\Eloquent\Builder
      */
     public function getAll()
     {
         return $this->posting->with('product', 'company')->orderBy('created_at', 'desc');
     }
     /**
-     * @return Illuminate\Pagination\LengthAwarePaginator
+     * @return Illuminate\Database\Eloquent\Builder
      */
     public function search(string $keyword)
     {
