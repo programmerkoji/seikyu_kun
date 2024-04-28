@@ -7,9 +7,16 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    <div class="mb-4 flex">
-                        <button type="button" onclick="location.href='{{ route('invoice.create') }}'" class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-blue-700 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">新規登録</button>
+                    <div class="mb-4 flex justify-between">
+                        <div>
+                            <button type="button" onclick="location.href='{{ route('posting.create') }}'" class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-blue-700 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">新規登録</button>
+                        </div>
+                        {{-- <form action="{{route('posting.index')}}" method="get" class="flex items-center gap-2">
+                            <input type="search" name="keyword" value="{{Request::get('keyword')}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="キーワードで検索">
+                            <button type="submit" class="focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 border border-gray-300 hover:opacity-80">検索</button>
+                        </form> --}}
                     </div>
+                    <x-pagination :pagination="$invoices" />
                     <div class="relative overflow-x-auto">
                         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -18,7 +25,10 @@
                                         企業名
                                     </th>
                                     <th scope="col" class="px-6 py-3">
-                                        請求日（発行日）
+                                        請求年
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        請求月
                                     </th>
                                     <th scope="col" class="px-6 py-3"></th>
                                 </tr>
@@ -30,7 +40,10 @@
                                         {{ $invoice->company->name }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        {{ \Carbon\Carbon::parse($invoice->billing_date)->format('y/m/d') }}
+                                        {{ $invoice->billing_year }}年
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        {{ $invoice->billing_month }}月
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <button type="button" onclick="location.href='{{ route('invoice.show', ['invoice' => $invoice->id]) }}'" class="text-white bg-blue-400 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-blue-300 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">詳細</button>

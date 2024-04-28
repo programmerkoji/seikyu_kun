@@ -7,7 +7,6 @@ use App\Http\Repositories\PostingRepository;
 use App\Http\Repositories\ProductRepository;
 use App\Http\Requests\PostingRequest;
 use App\Http\Services\ViewListPostingService;
-use App\Models\Company;
 use Illuminate\Http\Request;
 
 class PostingController extends Controller
@@ -57,7 +56,7 @@ class PostingController extends Controller
      */
     public function create()
     {
-        $companies = Company::select('id', 'name')->get();
+        $companies = $this->companyRepository->getIdAndName();
         $products = $this->productRepository->getIdAndName();
         return view('posting.create', compact('companies', 'products'));
     }

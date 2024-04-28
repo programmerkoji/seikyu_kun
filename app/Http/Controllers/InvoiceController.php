@@ -38,8 +38,9 @@ class InvoiceController extends Controller
 
     public function show($invoice_id)
     {
-        $invoice = Invoice::findOrFail($invoice_id);
-        return view('invoice.detail', compact('invoice'));
+        $invoice = $this->viewListInvoiceService->findByOne($invoice_id);
+        $postings = $this->viewListInvoiceService->getPosting($invoice_id);
+        return view('invoice.detail', compact('invoice', 'postings'));
     }
 
     public function edit($id)

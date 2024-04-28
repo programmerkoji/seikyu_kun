@@ -13,17 +13,13 @@ class Invoice extends Model
 
     protected $fillable = [
         'company_id',
-        'billing_date',
+        'billing_year',
+        'billing_month',
         'note',
     ];
 
     public function company()
     {
         return $this->belongsTo(Company::class);
-    }
-
-    public function postings()
-    {
-        return $this->hasMany(Posting::class);
     }
 }

@@ -31,10 +31,25 @@ class ViewListInvoiceService
 
     /**
      * @param int
-     * @return void
      */
     public function findByOne(int $invoice_id)
     {
         return $this->invoiceRepository->findByOne($invoice_id);
+    }
+
+    public function getPosting(int $invoice_id)
+    {
+        $invoice = $this->findByOne($invoice_id);
+        $invoiceYear = $invoice->billing_year;
+        $invoiceMonth = $invoice->billing_month;
+        $postings = [];
+        foreach ($invoice->company->postings as $posting) {
+            $postingYear = date('Y', strtotime($posting->posting_start));
+            $postingMonth = date('m', strtotime($posting->posting_start));
+            if ($invoiceYear === (int)$postingYear && $invoiceMonth === (int)$postingMonth) {
+                $postings[] = $posting;
+            }
+        }
+        return $postings;
     }
 }

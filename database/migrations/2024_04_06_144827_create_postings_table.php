@@ -23,10 +23,6 @@ return new class extends Migration
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->foreignId('invoice_id')
-                ->constrained()
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
             $table->integer('posting_term')->comment('掲載期間');
             $table->date('posting_start')->comment('掲載開始日');
             $table->integer('quantity')->default(0)->comment('掲載数');

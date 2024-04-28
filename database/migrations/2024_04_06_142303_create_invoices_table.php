@@ -19,7 +19,8 @@ return new class extends Migration
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->date('billing_date')->comment('請求日');
+            $table->integer('billing_year')->comment('請求年');
+            $table->integer('billing_month')->comment('請求月');
             $table->text('note')->nullable()->comment('備考');
             $table->timestamps();
             $table->softDeletes();

@@ -34,7 +34,7 @@ class InvoiceRepository
      */
     public function search(string $keyword)
     {
-        return $this->invoice->with('product', 'company')->where(function ($q) use($keyword) {
+        return $this->invoice->with('product', 'company')->where(function ($q) use ($keyword) {
             $q->where('content', 'like', '%' . $keyword . '%');
             $q->orWhere('note', 'like', '%' . $keyword . '%');
         })->orWhereHas('company', function ($q) use ($keyword) {
@@ -49,7 +49,9 @@ class InvoiceRepository
      */
     public function findByOne(int $invoice_id): Invoice
     {
-        return $this->invoice->with('company', 'postings')->findOrFail($invoice_id);
+        return $this->invoice
+            ->with('company:id,name', 'company.postings:id,product_id,company_id,content,posting_start,posting_term')
+            ->findOrFail($invoice_id);
     }
 
     public function create(array $data)
