@@ -21,12 +21,19 @@ class ViewListPostingService
 
     public function all()
     {
-        return $this->postingRepository->getAll();
+        return $this->postingRepository->getAll(['product', 'company'])->orderBy('created_at', 'desc');
     }
 
     public function search(string $keyword)
     {
-        return $this->postingRepository->search($keyword);
+        return $this->postingRepository->getAll(['product', 'company'])->where(function ($q) use($keyword) {
+            $q->where('content', 'like', '%' . $keyword . '%');
+            $q->orWhere('note', 'like', '%' . $keyword . '%');
+        })->orWhereHas('company', function ($q) use ($keyword) {
+            $q->where('name', 'like', '%' . $keyword . '%');
+        })->orWhereHas('product', function ($q) use ($keyword) {
+            $q->where('name', 'like', '%' . $keyword . '%');
+        })->orderBy('created_at', 'desc');;
     }
 
     /**

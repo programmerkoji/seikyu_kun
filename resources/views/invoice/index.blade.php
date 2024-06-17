@@ -9,7 +9,7 @@
                 <div class="p-6 text-gray-900">
                     <div class="mb-4 flex justify-between">
                         <div>
-                            <button type="button" onclick="location.href='{{ route('posting.create') }}'" class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-blue-700 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">新規登録</button>
+                            <button type="button" onclick="location.href='{{ route('invoice.create') }}'" class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-blue-700 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">新規登録</button>
                         </div>
                         {{-- <form action="{{route('posting.index')}}" method="get" class="flex items-center gap-2">
                             <input type="search" name="keyword" value="{{Request::get('keyword')}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="キーワードで検索">
@@ -58,4 +58,19 @@
             </div>
         </div>
     </div>
+    <script>
+        function deletePost(e) {
+            'use strict';
+            if (confirm('本当に削除してもよいですか？')) {
+                document.getElementById('delete_' + e.dataset.id).submit();
+            }
+        }
+    </script>
+    @if (session('message'))
+    <script>
+        $(function() {
+            toastr.success('{{ session("message") }}')
+        });
+    </script>
+    @endif
 </x-app-layout>

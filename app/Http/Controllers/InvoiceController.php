@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Repositories\InvoiceRepository;
 use App\Http\Services\ViewListInvoiceService;
 use App\Models\Company;
-use App\Models\Invoice;
 use Illuminate\Http\Request;
 
 class InvoiceController extends Controller
@@ -13,10 +13,15 @@ class InvoiceController extends Controller
      * @var ViewListInvoiceService
      */
     protected $viewListInvoiceService;
+    /**
+     * @var InvoiceRepository
+     */
+    protected $invoiceRepository;
 
     public function __construct()
     {
         $this->viewListInvoiceService = new ViewListInvoiceService();
+        $this->invoiceRepository = new InvoiceRepository();
     }
 
     public function index()
@@ -33,7 +38,10 @@ class InvoiceController extends Controller
 
     public function store(Request $request)
     {
-        //
+        $this->invoiceRepository->create($request->toArray());
+        return redirect()
+        ->route('invoice.index')
+        ->with('message', '請求を登録しました');
     }
 
     public function show($invoice_id)

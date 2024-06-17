@@ -32,23 +32,9 @@ class PostingRepository
     /**
      * @return Illuminate\Database\Eloquent\Builder
      */
-    public function getAll()
+    public function getAll(array $relations)
     {
-        return $this->posting->with('product', 'company')->orderBy('created_at', 'desc');
-    }
-    /**
-     * @return Illuminate\Database\Eloquent\Builder
-     */
-    public function search(string $keyword)
-    {
-        return $this->posting->with('product', 'company')->where(function ($q) use($keyword) {
-            $q->where('content', 'like', '%' . $keyword . '%');
-            $q->orWhere('note', 'like', '%' . $keyword . '%');
-        })->orWhereHas('company', function ($q) use ($keyword) {
-            $q->where('name', 'like', '%' . $keyword . '%');
-        })->orWhereHas('product', function ($q) use ($keyword) {
-            $q->where('name', 'like', '%' . $keyword . '%');
-        })->orderBy('created_at', 'desc');
+        return $this->posting->with($relations);
     }
 
     /**
