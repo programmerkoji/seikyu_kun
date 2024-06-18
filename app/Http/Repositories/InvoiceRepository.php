@@ -25,16 +25,16 @@ class InvoiceRepository
     /**
      * @return Illuminate\Pagination\LengthAwarePaginator
      */
-    public function getAll()
+    public function getAll(array $relations)
     {
-        return $this->invoice->with('company')->orderBy('created_at', 'desc');
+        return $this->invoice->with($relations)->orderBy('created_at', 'desc');
     }
     /**
      * @return Illuminate\Pagination\LengthAwarePaginator
      */
-    public function search(string $keyword)
+    public function search(string $keyword, array $relations)
     {
-        return $this->invoice->with('product', 'company')->where(function ($q) use ($keyword) {
+        return $this->invoice->with($relations)->where(function ($q) use ($keyword) {
             $q->where('content', 'like', '%' . $keyword . '%');
             $q->orWhere('note', 'like', '%' . $keyword . '%');
         })->orWhereHas('company', function ($q) use ($keyword) {

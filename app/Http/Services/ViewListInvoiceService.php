@@ -21,12 +21,12 @@ class ViewListInvoiceService
 
     public function all()
     {
-        return $this->invoiceRepository->getAll();
+        return $this->invoiceRepository->getAll(['company']);
     }
 
     public function search(string $keyword)
     {
-        return $this->invoiceRepository->search($keyword);
+        return $this->invoiceRepository->search($keyword, ['product', 'company']);
     }
 
     /**
