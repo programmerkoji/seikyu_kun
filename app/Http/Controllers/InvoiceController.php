@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Repositories\InvoiceRepository;
+use App\Http\Services\InvoiceDownloadPDFService;
 use App\Http\Services\ViewListInvoiceService;
 use App\Models\Company;
 use Illuminate\Http\Request;
+use PDF;
 
 class InvoiceController extends Controller
 {
@@ -13,6 +15,12 @@ class InvoiceController extends Controller
      * @var ViewListInvoiceService
      */
     protected $viewListInvoiceService;
+
+    /**
+     * @var $invoiceDownloadPDFService
+     */
+    protected $invoiceDownloadPDFService;
+
     /**
      * @var InvoiceRepository
      */
@@ -21,6 +29,7 @@ class InvoiceController extends Controller
     public function __construct()
     {
         $this->viewListInvoiceService = new ViewListInvoiceService();
+        $this->invoiceDownloadPDFService = new InvoiceDownloadPDFService();
         $this->invoiceRepository = new InvoiceRepository();
     }
 
@@ -64,5 +73,12 @@ class InvoiceController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function downloadPDF(int $invoice_id)
+    {
+        $invoice = $this->invoiceDownloadPDFService->downloadPDF($invoice_id);
+        $pdf = PDF::loadView('pdf.invoice', compact('invoice'));
+        return $pdf->stream('pdf.invoice');
     }
 }

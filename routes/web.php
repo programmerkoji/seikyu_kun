@@ -22,10 +22,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -33,6 +29,7 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('/company', CompanyController::class)->except('show');
     Route::resource('/invoice', InvoiceController::class);
+    Route::get('/invoice/{invoice}/pdf', [InvoiceController::class, 'downloadPDF'])->name('invoice.downloadPDF');
     Route::resource('/posting', PostingController::class);
     Route::resource('/product', ProductController::class)->except('show');
 });

@@ -47,10 +47,10 @@ class InvoiceRepository
     /**
      * @return Collection
      */
-    public function findByOne(int $invoice_id): Invoice
+    public function findByOne(int $invoice_id, array $relations): Invoice
     {
         return $this->invoice
-            ->with('company:id,name', 'company.postings:id,product_id,company_id,content,posting_start,posting_term')
+            ->with($relations)
             ->findOrFail($invoice_id);
     }
 
@@ -67,11 +67,11 @@ class InvoiceRepository
         }
     }
 
-    public function update(array $data, $inovice_id)
+    public function update(array $data, $inovice_id, array $relations)
     {
         try {
             DB::beginTransaction();
-            $this->findByOne($inovice_id)
+            $this->findByOne($inovice_id, $relations)
                 ->fill($data)
                 ->save();
             DB::commit();
@@ -81,11 +81,11 @@ class InvoiceRepository
         }
     }
 
-    public function destroy($inovice_id)
+    public function destroy($inovice_id, array $relations)
     {
         try {
             DB::beginTransaction();
-            $this->findByOne($inovice_id)
+            $this->findByOne($inovice_id, $relations)
                 ->delete();
             DB::commit();
         } catch (\Throwable $th) {

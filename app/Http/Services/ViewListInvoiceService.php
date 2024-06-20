@@ -34,7 +34,7 @@ class ViewListInvoiceService
      */
     public function findByOne(int $invoice_id)
     {
-        return $this->invoiceRepository->findByOne($invoice_id);
+        return $this->invoiceRepository->findByOne($invoice_id, ['company:id,name', 'company.postings:id,product_id,company_id,content,posting_start,posting_term']);
     }
 
     public function getPosting(int $invoice_id)
