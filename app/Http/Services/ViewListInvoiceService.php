@@ -34,12 +34,11 @@ class ViewListInvoiceService
      */
     public function findByOne(int $invoice_id)
     {
-        return $this->invoiceRepository->findByOne($invoice_id, ['company:id,name', 'company.postings:id,product_id,company_id,content,posting_start,posting_term']);
+        return $this->invoiceRepository->findByOne($invoice_id, ['company:id,name', 'company.postings:id,product_id,company_id,content,posting_start,posting_term,quantity,price,note']);
     }
 
-    public function getPosting(int $invoice_id)
+    public function getPosting($invoice)
     {
-        $invoice = $this->findByOne($invoice_id);
         $invoiceYear = $invoice->billing_year;
         $invoiceMonth = $invoice->billing_month;
         $postings = [];

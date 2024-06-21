@@ -6,6 +6,7 @@ use App\Http\Repositories\InvoiceRepository;
 use App\Http\Services\InvoiceDownloadPDFService;
 use App\Http\Services\ViewListInvoiceService;
 use App\Models\Company;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use PDF;
 
@@ -55,9 +56,8 @@ class InvoiceController extends Controller
 
     public function show($invoice_id)
     {
-        $invoice = $this->viewListInvoiceService->findByOne($invoice_id);
-        $postings = $this->viewListInvoiceService->getPosting($invoice_id);
-        return view('invoice.detail', compact('invoice', 'postings'));
+        $data = $this->getInvoiceAndPostings($invoice_id);
+        return view('invoice.detail', $data);
     }
 
     public function edit($id)
@@ -77,8 +77,18 @@ class InvoiceController extends Controller
 
     public function downloadPDF(int $invoice_id)
     {
-        $invoice = $this->invoiceDownloadPDFService->downloadPDF($invoice_id);
-        $pdf = PDF::loadView('pdf.invoice', compact('invoice'));
-        return $pdf->stream('pdf.invoice');
+        $data = $this->getInvoiceAndPostings($invoice_id);
+        $data['endOfMonth'] = $this->invoiceDownloadPDFService->getEndOfMonth($data['invoice']);
+        $data += $this->invoiceDownloadPDFService->getTotalPriceWithTax($data['postings']);
+        $fileName = $this->invoiceDownloadPDFService->generateFilename($data['invoice']);
+        $pdf = PDF::loadView('pdf.invoice', $data);
+        return $pdf->stream($fileName);
+    }
+
+    private function getInvoiceAndPostings($invoice_id)
+    {
+        $invoice = $this->viewListInvoiceService->findByOne($invoice_id);
+        $postings = $this->viewListInvoiceService->getPosting($invoice);
+        return compact('invoice', 'postings');
     }
 }

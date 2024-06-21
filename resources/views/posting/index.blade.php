@@ -39,8 +39,8 @@
                                     <th scope="col" class="px-6 py-3 whitespace-nowrap">
                                         部数
                                     </th>
-                                    <th scope="col" class="px-6 py-3 whitespace-nowrap">
-                                        掲載料金
+                                    <th scope="col" class="px-6 py-3 whitespace-nowrap text-right">
+                                        掲載料金<br>（単価）
                                     </th>
                                     <th scope="col" class="px-6 py-3 whitespace-nowrap"></th>
                                 </tr>
@@ -66,7 +66,7 @@
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         {{ $posting->quantity }}部
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
+                                    <td class="px-6 py-4 whitespace-nowrap text-right">
                                         {{ number_format($posting->price) }}円
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
