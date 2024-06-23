@@ -5,6 +5,7 @@ use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\PostingController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\AutocompleteController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,6 +33,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/invoice/{invoice}/pdf', [InvoiceController::class, 'downloadPDF'])->name('invoice.downloadPDF');
     Route::resource('/posting', PostingController::class);
     Route::resource('/product', ProductController::class)->except('show');
+    Route::get('/autocomplete', [AutocompleteController::class, 'company']);
 });
 
 require __DIR__.'/auth.php';

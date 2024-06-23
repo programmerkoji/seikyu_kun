@@ -2,6 +2,7 @@
 
 namespace App\Http\Services;
 
+use App\Http\Repositories\CompanyRepository;
 use App\Http\Repositories\PostingRepository;
 
 class ViewListPostingService
@@ -10,13 +11,15 @@ class ViewListPostingService
      * @var PostingRepository
      */
     protected $postingRepository;
-
     /**
-     * @param PostingRepository $procuctRepository
+     * @var CompanyRepository
      */
+    protected $companyRepository;
+
     public function __construct()
     {
         $this->postingRepository = new PostingRepository();
+        $this->companyRepository = new CompanyRepository();
     }
 
     public function all()
@@ -33,7 +36,7 @@ class ViewListPostingService
             $q->where('name', 'like', '%' . $keyword . '%');
         })->orWhereHas('product', function ($q) use ($keyword) {
             $q->where('name', 'like', '%' . $keyword . '%');
-        })->orderBy('created_at', 'desc');;
+        })->orderBy('created_at', 'desc');
     }
 
     /**
@@ -43,5 +46,10 @@ class ViewListPostingService
     public function findByOne(int $product_id)
     {
         return $this->postingRepository->findByOne($product_id);
+    }
+
+    public function getCompanyData(int $company_id)
+    {
+        return $this->companyRepository->findByOne($company_id);
     }
 }

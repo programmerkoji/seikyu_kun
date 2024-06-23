@@ -21,12 +21,16 @@ class ViewListCompanyService
 
     public function all()
     {
-        return $this->companyRepository->getAll();
+        return $this->companyRepository->getAll()->orderBy('created_at', 'desc');
     }
 
     public function search(string $keyword)
     {
-        return $this->companyRepository->search($keyword);
+        return $this->companyRepository->getAll()
+            ->where(function ($q) use($keyword) {
+                $q->where('name', 'like', '%' . $keyword . '%');
+                $q->orWhere('tel', 'like', '%' . $keyword . '%');
+            })->orderBy('created_at', 'desc');
     }
 
     /**

@@ -28,7 +28,7 @@ class CompanyRepository
      */
     public function getAll()
     {
-        return $this->company->orderBy('created_at', 'desc');
+        return $this->company->query();
     }
 
     /**

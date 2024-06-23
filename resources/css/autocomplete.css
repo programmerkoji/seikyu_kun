@@ -1,0 +1,22 @@
+.autoComplete_wrapper {
+    width: 100%;
+}
+#company_list {
+    border: 1px solid #ccc;
+    border-top: none;
+    font-size: 14px;
+}
+#company_list li {
+    padding: 8px;
+    cursor: pointer;
+}
+#company_list li:hover {
+    background: rgba(34, 34, 34, 0.1);
+}
+#company_list .no_result {
+    padding: 8px;
+    color: #f76511;
+}
+[aria-selected="true"] {
+    background: rgba(34, 34, 34, 0.1);
+}

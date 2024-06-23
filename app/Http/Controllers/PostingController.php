@@ -80,8 +80,9 @@ class PostingController extends Controller
     {
         $posting = $this->postingRepository->findByOne($posting_id);
         $products = $this->productRepository->getIdAndName();
-        $companies = $this->companyRepository->getIdAndName();
-        return view('posting.edit', compact('posting', 'products', 'companies'));
+        // $companies = $this->companyRepository->getIdAndName();
+        $companyData = $this->viewListPostingService->getCompanyData($posting->company_id);
+        return view('posting.edit', compact('posting', 'products', 'companyData'));
     }
 
     /**
