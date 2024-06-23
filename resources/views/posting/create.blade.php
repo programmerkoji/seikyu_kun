@@ -96,4 +96,5 @@
             </div>
         </div>
     </div>
+    @vite(['resources/js/autocomplete.js', 'resources/css/autocomplete.css'])
 </x-app-layout>
