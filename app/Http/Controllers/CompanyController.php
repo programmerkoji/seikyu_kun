@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Repositories\CompanyRepository;
 use App\Http\Requests\CompanyRequest;
 use App\Http\Services\ViewListCompanyService;
+use App\Imports\CompaniesImport;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CompanyController extends Controller
 {
@@ -89,5 +91,14 @@ class CompanyController extends Controller
         return redirect()
         ->route('company.index')
         ->with('message', '企業を削除しました');
+    }
+
+    public function import(Request $request)
+    {
+        $file = $request->file('file');
+        Excel::import(new CompaniesImport, $file);
+        return redirect()
+            ->route('company.index')
+            ->with('message', 'データが正常にインポートされました');
     }
 }

@@ -7,6 +7,18 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
+                    <div class="mb-4 flex justify-end">
+                        <form action="{{ route('company.import') }}" method="post" enctype="multipart/form-data" class="flex flex-col md:flex-row items-center gap-2 justify-end w-full md:w-3/4 lg:w-2/5">
+                            @csrf
+                            <div class="w-full flex-1">
+                                <input type="file" name="file" id="file" accept=".csv,.xlsx,.xls" class="w-full text-gray-500 font-medium text-sm bg-gray-100 file:cursor-pointer cursor-pointer file:border-0 file:py-2 file:px-4 file:mr-4 file:bg-gray-800 file:hover:bg-gray-700 file:text-white rounded">
+                            </div>
+                            <div class="w-full md:w-44 flex gap-2 justify-end">
+                                <button type="submit" class="focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-1.5 border border-gray-300 hover:opacity-80">アップロード</button>
+                                <button type="button" id="clearButton" class="focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-1.5 border border-gray-300 hover:opacity-80">クリア</button>
+                            </div>
+                        </form>
+                    </div>
                     <form action="{{ route('company.store') }}" method="post">
                         @csrf
                         <div class="w-full mb-4">
@@ -81,4 +93,9 @@
             </div>
         </div>
     </div>
+    <script>
+        document.getElementById('clearButton').addEventListener('click', function() {
+            document.getElementById('file').value = '';
+        });
+    </script>
 </x-app-layout>
