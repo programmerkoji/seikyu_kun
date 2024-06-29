@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('companies', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->comment('企業名');
+            $table->string('name')->unique()->comment('企業名');
             $table->string('post_code', 12)->comment('郵便番号');
             $table->string('address')->comment('住所');
             $table->string('tel', 40)->comment('電話番号');

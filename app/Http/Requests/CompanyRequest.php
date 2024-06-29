@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CompanyRequest extends FormRequest
 {
@@ -23,8 +24,9 @@ class CompanyRequest extends FormRequest
      */
     public function rules()
     {
+        $companyId = (int)$this->route('company');
         return [
-            'name' => ['required'],
+            'name' => ['required', Rule::unique('companies')->ignore($companyId)],
             'post_code' => ['required'],
             'address' => ['required'],
         ];
@@ -34,6 +36,7 @@ class CompanyRequest extends FormRequest
     {
         return [
             'name.required' => '企業名は必須項目です。',
+            'name.unique' => 'すでに登録されています。',
             'post_code.required' => '郵便番号は必須項目です。',
             'address.required' => '住所は必須項目です。',
         ];

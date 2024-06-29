@@ -18,7 +18,7 @@ class CompanyFactory extends Factory
     {
         $date = $this->faker->dateTimeBetween('-1year');
         return [
-            'name' => $this->faker->company,
+            'name' => $this->faker->unique()->company,
             'post_code' => $this->faker->postcode,
             'address' => $this->faker->streetAddress,
             'tel' => $this->faker->phoneNumber,
