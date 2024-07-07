@@ -26,7 +26,7 @@ class InvoiceDownloadPDFService
     public function getTotalPriceWithTax(array $postings)
     {
         $totalPrice = array_reduce($postings, function ($sum, $posting) {
-            return $sum + $posting->price;
+            return $sum + $posting->price * $posting->quantity;
         }, 0);
         $taxRate = config('constants.taxRate');
         $taxAmount = (int)round($totalPrice * $taxRate);

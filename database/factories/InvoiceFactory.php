@@ -23,6 +23,7 @@ class InvoiceFactory extends Factory
 
         return [
             'company_id' => $this->faker->randomElement($company_ids),
+            'title' => $this->faker->title,
             'billing_year' => '2024',
             'billing_month' => $this->faker->numberBetween(1, 4),
             'note' => $this->faker->optional(0.3)->realText(),
