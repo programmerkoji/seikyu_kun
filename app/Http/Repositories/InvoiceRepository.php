@@ -27,7 +27,7 @@ class InvoiceRepository
      */
     public function getAll(array $relations)
     {
-        return $this->invoice->with($relations)->orderBy('created_at', 'desc');
+        return $this->invoice->with($relations);
     }
     /**
      * @return Illuminate\Pagination\LengthAwarePaginator
@@ -35,11 +35,9 @@ class InvoiceRepository
     public function search(string $keyword, array $relations)
     {
         return $this->invoice->with($relations)->where(function ($q) use ($keyword) {
-            $q->where('content', 'like', '%' . $keyword . '%');
+            $q->where('title', 'like', '%' . $keyword . '%');
             $q->orWhere('note', 'like', '%' . $keyword . '%');
         })->orWhereHas('company', function ($q) use ($keyword) {
-            $q->where('name', 'like', '%' . $keyword . '%');
-        })->orWhereHas('product', function ($q) use ($keyword) {
             $q->where('name', 'like', '%' . $keyword . '%');
         })->orderBy('created_at', 'desc');
     }

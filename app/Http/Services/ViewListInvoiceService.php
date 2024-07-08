@@ -21,12 +21,17 @@ class ViewListInvoiceService
 
     public function all()
     {
-        return $this->invoiceRepository->getAll(['company']);
+        return $this->invoiceRepository->getAll(['company'])->orderBy('created_at', 'desc');
     }
 
     public function search(string $keyword)
     {
-        return $this->invoiceRepository->search($keyword, ['product', 'company']);
+        return $this->invoiceRepository->getAll(['company'])->where(function ($q) use($keyword) {
+            $q->where('title', 'like', '%' . $keyword . '%');
+            $q->orWhere('note', 'like', '%' . $keyword . '%');
+        })->orWhereHas('company', function ($q) use ($keyword) {
+            $q->where('name', 'like', '%' . $keyword . '%');
+        })->orderBy('created_at', 'desc');
     }
 
     /**

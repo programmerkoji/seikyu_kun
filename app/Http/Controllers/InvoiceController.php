@@ -34,9 +34,15 @@ class InvoiceController extends Controller
         $this->invoiceRepository = new InvoiceRepository();
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $invoices = $this->viewListInvoiceService->all()->paginate(config('constants.pagination'))->withQueryString();
+        $keyword = $request->keyword;
+        if ($keyword) {
+            $query = $this->viewListInvoiceService->search($keyword);
+        } else {
+            $query = $this->viewListInvoiceService->all();
+        }
+        $invoices = $query->paginate(config('constants.pagination'))->withQueryString();
         return view('invoice.index', compact('invoices'));
     }
 
