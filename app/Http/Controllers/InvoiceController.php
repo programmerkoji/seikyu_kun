@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Repositories\InvoiceRepository;
+use App\Http\Requests\InvoiceRequest;
 use App\Http\Services\InvoiceDownloadPDFService;
 use App\Http\Services\ViewListInvoiceService;
 use App\Models\Company;
@@ -52,7 +53,7 @@ class InvoiceController extends Controller
         return view('invoice.create', compact('companies'));
     }
 
-    public function store(Request $request)
+    public function store(InvoiceRequest $request)
     {
         $this->invoiceRepository->create($request->toArray());
         return redirect()
