@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Repositories\CompanyRepository;
 use App\Http\Requests\CompanyRequest;
+use App\Http\Requests\ImportCsvRequest;
 use App\Http\Services\ViewListCompanyService;
 use App\Imports\CompaniesImport;
 use Illuminate\Http\Request;
@@ -93,12 +94,18 @@ class CompanyController extends Controller
         ->with('message', '企業を削除しました');
     }
 
-    public function import(Request $request)
+    public function import(ImportCsvRequest $request)
     {
         $file = $request->file('file');
-        Excel::import(new CompaniesImport, $file);
-        return redirect()
-            ->route('company.index')
-            ->with('message', 'データが正常にインポートされました');
+        try {
+            Excel::import(new CompaniesImport, $file);
+            return redirect()
+                ->route('company.index')
+                ->with('message', 'データが正常にインポートされました');
+        } catch (\Exception $ex) {
+            return redirect()
+                ->route('company.create')
+                ->with('error', 'データのインポート中にエラーが発生しました: ' . $ex->getMessage());
+        }
     }
 }
