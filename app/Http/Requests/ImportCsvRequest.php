@@ -24,7 +24,7 @@ class ImportCsvRequest extends FormRequest
     public function rules()
     {
         return [
-            'file' => ['required', 'mimes:csv'],
+            'file' => ['required', 'mimes:csv,txt'],
         ];
     }
 
