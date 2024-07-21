@@ -29,6 +29,9 @@ class CompanyRequest extends FormRequest
             'name' => ['required', Rule::unique('companies')->ignore($companyId)->whereNull('deleted_at')],
             'post_code' => ['required'],
             'address' => ['required'],
+            'tel' => ['required'],
+            'ceo_name' => ['required'],
+            'responsible_person_name' => ['required'],
         ];
     }
 
@@ -39,6 +42,9 @@ class CompanyRequest extends FormRequest
             'name.unique' => 'すでに登録されています。',
             'post_code.required' => '郵便番号は必須項目です。',
             'address.required' => '住所は必須項目です。',
+            'tel.required' => '電話番号は必須項目です。',
+            'ceo_name.required' => '代表者名は必須項目です。',
+            'responsible_person_name.required' => '担当者名は必須項目です。',
         ];
     }
 }
