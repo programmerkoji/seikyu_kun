@@ -3,6 +3,7 @@
 namespace App\Http\Services;
 
 use App\Http\Repositories\InvoiceRepository;
+use App\Http\Repositories\PostingRepository;
 
 class ViewListInvoiceService
 {
@@ -10,6 +11,10 @@ class ViewListInvoiceService
      * @var InvoiceRepository
      */
     protected $invoiceRepository;
+    /**
+     * @var PostingRepository
+     */
+    protected $postingRepository;
 
     /**
      * @param InvoiceRepository $procuctRepository
@@ -17,6 +22,7 @@ class ViewListInvoiceService
     public function __construct()
     {
         $this->invoiceRepository = new InvoiceRepository();
+        $this->postingRepository = new PostingRepository();
     }
 
     public function all()
@@ -55,5 +61,27 @@ class ViewListInvoiceService
             }
         }
         return $postings;
+    }
+
+    public function existsPostingForInvoices($invoices)
+    {
+        $companyIds = $invoices->pluck('company_id');
+        $invoiceYears = $invoices->pluck('billing_year');
+        $invoiceMonths = $invoices->pluck('billing_month');
+
+        $postings = $this->postingRepository->getPostingsForInvoices($companyIds, $invoiceYears, $invoiceMonths);
+        $existsPostingForInvoices = array_fill_keys($invoices->pluck('id')->toArray(), false);
+        $indexedPostings = [];
+        foreach ($postings as $posting) {
+            $year = (int)date('Y', strtotime($posting->posting_start));
+            $month = (int)date('m', strtotime($posting->posting_start));
+            $indexedPostings[$posting->company_id][$year][$month] = true;
+        }
+        foreach ($invoices as $invoice) {
+            if (isset($indexedPostings[$invoice->company_id][$invoice->billing_year][$invoice->billing_month])) {
+                $existsPostingForInvoices[$invoice->id] = true;
+            }
+        }
+        return $existsPostingForInvoices;
     }
 }

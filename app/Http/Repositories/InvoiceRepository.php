@@ -3,6 +3,7 @@
 namespace App\Http\Repositories;
 
 use App\Models\Invoice;
+use App\Models\Posting;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -28,18 +29,6 @@ class InvoiceRepository
     public function getAll(array $relations)
     {
         return $this->invoice->with($relations);
-    }
-    /**
-     * @return Illuminate\Pagination\LengthAwarePaginator
-     */
-    public function search(string $keyword, array $relations)
-    {
-        return $this->invoice->with($relations)->where(function ($q) use ($keyword) {
-            $q->where('title', 'like', '%' . $keyword . '%');
-            $q->orWhere('note', 'like', '%' . $keyword . '%');
-        })->orWhereHas('company', function ($q) use ($keyword) {
-            $q->where('name', 'like', '%' . $keyword . '%');
-        })->orderBy('created_at', 'desc');
     }
 
     /**
