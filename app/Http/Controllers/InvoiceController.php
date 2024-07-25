@@ -96,7 +96,7 @@ class InvoiceController extends Controller
     private function getInvoiceAndPostings($invoice_id)
     {
         $invoice = $this->viewListInvoiceService->findByOne($invoice_id);
-        $postings = $this->viewListInvoiceService->getPosting($invoice);
+        $postings = $this->viewListInvoiceService->getPostingForInvoice($invoice);
         return compact('invoice', 'postings');
     }
 }

@@ -48,18 +48,12 @@ class ViewListInvoiceService
         return $this->invoiceRepository->findByOne($invoice_id, ['company:id,name', 'company.postings:id,product_id,company_id,content,posting_start,posting_term,quantity,price,note']);
     }
 
-    public function getPosting($invoice)
+    public function getPostingForInvoice($invoice)
     {
-        $invoiceYear = $invoice->billing_year;
-        $invoiceMonth = $invoice->billing_month;
-        $postings = [];
-        foreach ($invoice->company->postings as $posting) {
-            $postingYear = date('Y', strtotime($posting->posting_start));
-            $postingMonth = date('m', strtotime($posting->posting_start));
-            if ($invoiceYear === (int)$postingYear && $invoiceMonth === (int)$postingMonth) {
-                $postings[] = $posting;
-            }
-        }
+        $companyId = [$invoice->company_id];
+        $invoiceYear = [$invoice->billing_year];
+        $invoiceMonth = [$invoice->billing_month];
+        $postings = $this->postingRepository->getPostingsForInvoices($companyId, $invoiceYear, $invoiceMonth, 'product');
         return $postings;
     }
 
@@ -69,7 +63,7 @@ class ViewListInvoiceService
         $invoiceYears = $invoices->pluck('billing_year');
         $invoiceMonths = $invoices->pluck('billing_month');
 
-        $postings = $this->postingRepository->getPostingsForInvoices($companyIds, $invoiceYears, $invoiceMonths);
+        $postings = $this->postingRepository->getPostingsForInvoices($companyIds, $invoiceYears, $invoiceMonths, 'product');
         $existsPostingForInvoices = array_fill_keys($invoices->pluck('id')->toArray(), false);
         $indexedPostings = [];
         foreach ($postings as $posting) {

@@ -43,9 +43,9 @@ class PostingRepository
      * @param array $invoiceMonths
      * @return Collection
      */
-    public function getPostingsForInvoices($companyIds, $invoiceYears, $invoiceMonths)
+    public function getPostingsForInvoices($companyIds, $invoiceYears, $invoiceMonths, $relations)
     {
-        return Posting::whereIn('company_id', $companyIds)
+        return $this->posting->with($relations)->whereIn('company_id', $companyIds)
             ->whereIn(DB::raw('YEAR(posting_start)'), $invoiceYears)
             ->whereIn(DB::raw('MONTH(posting_start)'), $invoiceMonths)
             ->get();
