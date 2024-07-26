@@ -87,7 +87,7 @@ class InvoiceController extends Controller
     {
         $data = $this->getInvoiceAndPostings($invoice_id);
         $data['endOfMonth'] = $this->invoiceDownloadPDFService->getEndOfMonth($data['invoice']);
-        $data += $this->invoiceDownloadPDFService->getTotalPriceWithTax($data['postings']);
+        $data += $this->invoiceDownloadPDFService->getTotalPriceWithTax($data['postings']->toArray());
         $fileName = $this->invoiceDownloadPDFService->generateFilename($data['invoice']);
         $pdf = PDF::loadView('pdf.invoice', $data);
         return $pdf->stream($fileName);
