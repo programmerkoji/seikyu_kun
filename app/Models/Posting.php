@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Posting extends Model
 {
     use HasFactory;
-    use SoftDeletes;
 
     protected $fillable = [
         'id',
@@ -31,6 +30,6 @@ class Posting extends Model
 
     public function company()
     {
-        return $this->belongsTo(Company::class)->withTrashed();
+        return $this->belongsTo(Company::class);
     }
 }

@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Invoice extends Model
 {
     use HasFactory;
-    use SoftDeletes;
 
     protected $fillable = [
         'company_id',
@@ -21,6 +20,6 @@ class Invoice extends Model
 
     public function company()
     {
-        return $this->belongsTo(Company::class)->withTrashed();
+        return $this->belongsTo(Company::class);
     }
 }

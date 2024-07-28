@@ -19,12 +19,15 @@ return new class extends Migration
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
+            $table->foreignId('posting_id')
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->string('title')->comment('請求タイトル');
             $table->integer('billing_year')->comment('請求年');
             $table->integer('billing_month')->comment('請求月');
             $table->text('note')->nullable()->comment('備考');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

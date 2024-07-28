@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('name')->comment('商品名');
             $table->integer('base_price')->comment('基本料金');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

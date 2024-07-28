@@ -23,7 +23,6 @@ return new class extends Migration
             $table->string('responsible_person_name', 40)->comment('担当者名');
             $table->text('note')->comment('備考')->nullable();
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

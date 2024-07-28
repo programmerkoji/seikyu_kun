@@ -31,7 +31,6 @@ return new class extends Migration
             $table->integer('price')->default(0)->comment('掲載料金');
             $table->text('note')->nullable()->comment('その他');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
