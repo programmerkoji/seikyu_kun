@@ -43,15 +43,8 @@ class InvoiceRepository
 
     public function create(array $data)
     {
-        try {
-            DB::beginTransaction();
-            $invoice = new Invoice;
-            $invoice->fill($data)->save();
-            DB::commit();
-        } catch (\Throwable $th) {
-            Log::error($th);
-            DB::rollback();
-        }
+        $invoice = new Invoice;
+        $invoice->fill($data)->save();
     }
 
     public function update(array $data, $inovice_id, array $relations)

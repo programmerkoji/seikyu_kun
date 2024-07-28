@@ -6,7 +6,9 @@ use App\Http\Repositories\CompanyRepository;
 use App\Http\Repositories\PostingRepository;
 use App\Http\Repositories\ProductRepository;
 use App\Http\Requests\PostingRequest;
+use App\Http\Services\PostingInvoiceService;
 use App\Http\Services\ViewListPostingService;
+use Exception;
 use Illuminate\Http\Request;
 
 class PostingController extends Controller
@@ -27,6 +29,10 @@ class PostingController extends Controller
      * @var ViewListPostingService
      */
     protected $viewListPostingService;
+    /**
+     * @var PostingInvoiceService
+     */
+    protected $postingInvoiceService;
 
     public function __construct()
     {
@@ -34,6 +40,7 @@ class PostingController extends Controller
         $this->productRepository = new ProductRepository();
         $this->companyRepository = new CompanyRepository();
         $this->viewListPostingService = new ViewListPostingService();
+        $this->postingInvoiceService = new PostingInvoiceService();
     }
 
     /**
@@ -66,10 +73,30 @@ class PostingController extends Controller
      */
     public function store(PostingRequest $request)
     {
-        $this->postingRepository->create($request->toArray());
-        return redirect()
-        ->route('posting.index')
-        ->with('message', '掲載を登録しました');
+        $validatedData = $request->validated();
+        $postingData = [
+            'company_id' => $validatedData['company_id'],
+            'product_id' => $validatedData['product_id'],
+            'posting_term' => $validatedData['posting_term'],
+            'posting_start' => $validatedData['posting_start'],
+            'quantity' => $validatedData['quantity'],
+            'content' => $validatedData['content'],
+            'note' => $request->input('note'),
+        ];
+        $invoiceData = [
+            'company_id' => $validatedData['company_id'],
+            'title' => $validatedData['title'],
+            'billing_year' => $validatedData['billing_year'],
+            'billing_month' => $validatedData['billing_month'],
+        ];
+        try {
+            $this->postingInvoiceService->createPostingWithInvoice($postingData, $invoiceData);
+            return redirect()
+            ->route('posting.index')
+            ->with('message', '掲載を登録しました');
+        } catch (Exception $e) {
+            throw $e;
+        }
     }
 
     /**

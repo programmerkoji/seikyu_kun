@@ -61,15 +61,8 @@ class PostingRepository
 
     public function create(array $data)
     {
-        try {
-            DB::beginTransaction();
-            $posting = new Posting;
-            $posting->fill($data)->save();
-            DB::commit();
-        } catch (\Throwable $th) {
-            Log::error($th);
-            DB::rollback();
-        }
+        $posting = new Posting;
+        $posting->fill($data)->save();
     }
 
     public function update(array $data, $posting_id)
