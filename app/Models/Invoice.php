@@ -12,6 +12,7 @@ class Invoice extends Model
 
     protected $fillable = [
         'company_id',
+        'posting_id',
         'title',
         'billing_year',
         'billing_month',
@@ -21,5 +22,10 @@ class Invoice extends Model
     public function company()
     {
         return $this->belongsTo(Company::class);
+    }
+
+    public function posting()
+    {
+        return $this->belongsTo(Posting::class);
     }
 }

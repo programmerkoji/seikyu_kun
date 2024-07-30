@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Company;
+use App\Models\Posting;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -18,14 +19,19 @@ class InvoiceFactory extends Factory
      */
     public function definition()
     {
-        $date = $this->faker->dateTimeBetween('-3 month');
-        $company_ids = Company::pluck('id')->toArray();
+        $companyIds = Company::pluck('id')->toArray();
+        $postings = Posting::get();
+        $postingIds = $postings->pluck('id')->toArray();
+        $ramdomPostingId = $this->faker->randomElement($postingIds);
+        $billingYear = $postings->firstWhere('id', $ramdomPostingId)?->posting_start ? (int)date('Y', strtotime($postings->firstWhere('id', $ramdomPostingId)->posting_start)) : 0;
+        $billingMonth = $postings->firstWhere('id', $ramdomPostingId)?->posting_start ? (int)date('m', strtotime($postings->firstWhere('id', $ramdomPostingId)->posting_start)) : 0;
 
         return [
-            'company_id' => $this->faker->randomElement($company_ids),
+            'company_id' => $this->faker->randomElement($companyIds),
+            'posting_id' => $ramdomPostingId,
             'title' => $this->faker->title,
-            'billing_year' => '2024',
-            'billing_month' => $this->faker->numberBetween(1, 4),
+            'billing_year' => $billingYear,
+            'billing_month' => $billingMonth,
             'note' => $this->faker->optional(0.3)->realText(),
         ];
     }
