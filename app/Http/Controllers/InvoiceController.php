@@ -47,24 +47,10 @@ class InvoiceController extends Controller
         return view('invoice.index', compact('invoices'));
     }
 
-    public function create()
-    {
-        $companies = Company::orderBy('id', 'desc')->get();
-        return view('invoice.create', compact('companies'));
-    }
-
-    public function store(InvoiceRequest $request)
-    {
-        $this->invoiceRepository->create($request->toArray());
-        return redirect()
-        ->route('invoice.index')
-        ->with('message', '請求を登録しました');
-    }
-
     public function show($invoice_id)
     {
-        $data = $this->getInvoiceAndPostings($invoice_id);
-        return view('invoice.detail', $data);
+        $invoice = $this->viewListInvoiceService->findByOne($invoice_id);
+        return view('invoice.detail', compact('invoice'));
     }
 
     public function edit($id)
@@ -90,12 +76,5 @@ class InvoiceController extends Controller
         $fileName = $this->invoiceDownloadPDFService->generateFilename($data['invoice']);
         $pdf = PDF::loadView('pdf.invoice', $data);
         return $pdf->stream($fileName);
-    }
-
-    private function getInvoiceAndPostings($invoice_id)
-    {
-        $invoice = $this->viewListInvoiceService->findByOne($invoice_id);
-        $postings = $this->viewListInvoiceService->getPostingForInvoice($invoice);
-        return compact('invoice', 'postings');
     }
 }

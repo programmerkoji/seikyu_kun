@@ -41,12 +41,6 @@ class InvoiceRepository
             ->findOrFail($invoice_id);
     }
 
-    public function create(array $data)
-    {
-        $invoice = new Invoice;
-        $invoice->fill($data)->save();
-    }
-
     public function update(array $data, $inovice_id, array $relations)
     {
         try {

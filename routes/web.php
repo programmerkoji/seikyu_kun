@@ -30,7 +30,7 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('/company', CompanyController::class)->except('show');
     Route::post('/company/import', [CompanyController::class, 'import'])->name('company.import');
-    Route::resource('/invoice', InvoiceController::class);
+    Route::resource('/invoice', InvoiceController::class)->except(['create', 'store']);
     Route::get('/invoice/{invoice}/pdf', [InvoiceController::class, 'downloadPDF'])->name('invoice.downloadPDF');
     Route::resource('/posting', PostingController::class);
     Route::resource('/product', ProductController::class)->except('show');
