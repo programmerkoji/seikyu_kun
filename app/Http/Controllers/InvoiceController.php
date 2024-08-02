@@ -44,8 +44,7 @@ class InvoiceController extends Controller
             $query = $this->viewListInvoiceService->all();
         }
         $invoices = $query->paginate(config('constants.pagination'))->withQueryString();
-        $existsPostingForInvoices = $this->viewListInvoiceService->existsPostingForInvoices($invoices);
-        return view('invoice.index', compact('invoices', 'existsPostingForInvoices'));
+        return view('invoice.index', compact('invoices'));
     }
 
     public function create()

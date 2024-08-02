@@ -27,12 +27,12 @@ class ViewListInvoiceService
 
     public function all()
     {
-        return $this->invoiceRepository->getAll(['company'])->orderBy('created_at', 'desc');
+        return $this->invoiceRepository->getAll(['company', 'postings'])->orderBy('created_at', 'desc');
     }
 
     public function search(string $keyword)
     {
-        return $this->invoiceRepository->getAll(['company'])->where(function ($q) use($keyword) {
+        return $this->invoiceRepository->getAll(['company', 'postings'])->where(function ($q) use($keyword) {
             $q->where('title', 'like', '%' . $keyword . '%');
             $q->orWhere('note', 'like', '%' . $keyword . '%');
         })->orWhereHas('company', function ($q) use ($keyword) {
@@ -55,27 +55,5 @@ class ViewListInvoiceService
         $invoiceMonth = [$invoice->billing_month];
         $postings = $this->postingRepository->getPostingsForInvoices($companyId, $invoiceYear, $invoiceMonth, 'product');
         return $postings;
-    }
-
-    public function existsPostingForInvoices($invoices)
-    {
-        $companyIds = $invoices->pluck('company_id');
-        $invoiceYears = $invoices->pluck('billing_year');
-        $invoiceMonths = $invoices->pluck('billing_month');
-
-        $postings = $this->postingRepository->getPostingsForInvoices($companyIds, $invoiceYears, $invoiceMonths, 'product');
-        $existsPostingForInvoices = array_fill_keys($invoices->pluck('id')->toArray(), false);
-        $indexedPostings = [];
-        foreach ($postings as $posting) {
-            $year = (int)date('Y', strtotime($posting->posting_start));
-            $month = (int)date('m', strtotime($posting->posting_start));
-            $indexedPostings[$posting->company_id][$year][$month] = true;
-        }
-        foreach ($invoices as $invoice) {
-            if (isset($indexedPostings[$invoice->company_id][$invoice->billing_year][$invoice->billing_month])) {
-                $existsPostingForInvoices[$invoice->id] = true;
-            }
-        }
-        return $existsPostingForInvoices;
     }
 }
