@@ -14,6 +14,7 @@ class Posting extends Model
         'id',
         'company_id',
         'product_id',
+        'invoice_id',
         'posting_term',
         'posting_start',
         'quantity',
@@ -32,9 +33,8 @@ class Posting extends Model
     {
         return $this->belongsTo(Company::class);
     }
-
-    public function invoices()
+    public function invoice()
     {
-        return $this->hasMany(Invoice::class);
+        return $this->belongsTo(Invoice::class);
     }
 }
