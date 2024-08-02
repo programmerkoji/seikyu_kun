@@ -22,14 +22,24 @@ class PostingFactory extends Factory
     {
         $date = $this->faker->dateTimeBetween('-3 week');
         $contentArray = ['春の感謝キャンペーン適用', 'A,Bプランの長期キャンペーン適用', 'Dプラン1週追加キャンペーン適用'];
-        $company_ids = Company::pluck('id')->toArray();
-        $product_ids = Product::pluck('id')->toArray();
+        // $companyIds = Company::pluck('id')->toArray();
+        $productIds = Product::pluck('id')->toArray();
+        $invoices = Invoice::all();
+        $invoiceId = $this->faker->randomElement($invoices->pluck('id')->toArray());
+        $invoiceArray = $invoices->where('id', $invoiceId)->toArray();
+        $invoice = reset($invoiceArray);
+        $billingYear = $invoice['billing_year'];
+        $billingMonth = $invoice['billing_month'];
+        $billingDay = $this->faker->numberBetween(1, 30);
+        $postingStart = Carbon::parse($billingYear.'-'.$billingMonth.'-'.$billingDay);
+        $companyId = $invoice['company_id'];
 
         return [
-            'company_id' => $this->faker->randomElement($company_ids),
-            'product_id' => $this->faker->randomElement($product_ids),
+            'company_id' => $companyId,
+            'product_id' => $this->faker->randomElement($productIds),
+            'invoice_id' => $invoiceId,
             'posting_term' => $this->faker->numberBetween(1, 4),
-            'posting_start' => $this->faker->dateTimeBetween('-3 months'),
+            'posting_start' => $postingStart,
             'quantity' => $this->faker->numberBetween(1, 4),
             'content' => $this->faker->randomElement($contentArray),
             'is_special_price' => $this->faker->numberBetween(0, 1),

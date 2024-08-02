@@ -25,6 +25,6 @@ class DatabaseSeeder extends Seeder
             // PostingSeeder::class,
         ]);
         Invoice::factory(30)->create();
-        Posting::factory(30)->create();
+        Posting::factory(100)->create();
     }
 }
