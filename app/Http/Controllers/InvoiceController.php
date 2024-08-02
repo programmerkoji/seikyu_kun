@@ -70,11 +70,11 @@ class InvoiceController extends Controller
 
     public function downloadPDF(int $invoice_id)
     {
-        $data = $this->getInvoiceAndPostings($invoice_id);
-        $data['endOfMonth'] = $this->invoiceDownloadPDFService->getEndOfMonth($data['invoice']);
-        $data += $this->invoiceDownloadPDFService->getTotalPriceWithTax($data['postings']->toArray());
-        $fileName = $this->invoiceDownloadPDFService->generateFilename($data['invoice']);
-        $pdf = PDF::loadView('pdf.invoice', $data);
+        $invoice = $this->viewListInvoiceService->findByOne($invoice_id);
+        $data['endOfMonth'] = $this->invoiceDownloadPDFService->getEndOfMonth($invoice);
+        $data += $this->invoiceDownloadPDFService->getTotalPriceWithTax($invoice);
+        $fileName = $this->invoiceDownloadPDFService->generateFilename($invoice);
+        $pdf = PDF::loadView('pdf.invoice', compact('invoice', 'data'));
         return $pdf->stream($fileName);
     }
 }

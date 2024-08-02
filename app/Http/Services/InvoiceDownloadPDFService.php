@@ -16,20 +16,20 @@ class InvoiceDownloadPDFService
         $this->invoiceRepository = new InvoiceRepository();
     }
 
-    public function getEndOfMonth(object $invoice)
+    public function getEndOfMonth($invoice)
     {
         $billingYear = $invoice->billing_year;
         $billingMonth = $invoice->billing_month;
         return Carbon::createFromDate($billingYear, $billingMonth, 1)->endOfMonth()->format('Y/m/d');
     }
 
-    public function getTotalPriceWithTax(array $postings)
+    public function getTotalPriceWithTax($invoice)
     {
-        $totalPrice = array_reduce($postings, function($carry, $item) {
-            return $carry + ($item['price'] * $item['quantity']);
-        }, 0);
+        $totalPrice = $invoice->postings->sum(function ($posting) {
+            return $posting->price * $posting->quantity;
+        });
         $taxRate = config('constants.taxRate');
-        $taxAmount = (int)round($totalPrice * $taxRate);
+        $taxAmount = intval($totalPrice * $taxRate);
         $totalPriceIncludingTax = $taxAmount + $totalPrice;
         $formattedTotalPrice = number_format($totalPrice);
         $formattedTaxAmount = number_format($taxAmount);

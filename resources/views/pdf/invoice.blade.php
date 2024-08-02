@@ -91,7 +91,7 @@
         </div>
         <div class="bl_address_own">
             <div>No. {{ str_pad($invoice->id, 6, '0', STR_PAD_LEFT) }}</div>
-            <div>請求日　{{ $endOfMonth }}</div>
+            <div>請求日　{{ $data['endOfMonth'] }}</div>
         </div>
     </div>
     <div class="ly_invoiceHead">
@@ -114,7 +114,7 @@
             <table>
                 <tr>
                     <th>ご請求金額（税込）</th>
-                    <td class="price_text">¥{{ $formattedTotalPriceIncludingTax }}</td>
+                    <td class="price_text">¥{{ $data['formattedTotalPriceIncludingTax'] }}</td>
                 </tr>
             </table>
         </div>
@@ -139,7 +139,7 @@
                 <th>単価</th>
                 <th>金額</th>
             </tr>
-            @foreach ($postings as $posting)
+            @foreach ($invoice->postings as $posting)
             <tr>
                 <td>{{ $posting->product->name }}</td>
                 <td>{{ $posting->content }}</td>
@@ -150,7 +150,7 @@
                 <td class="price_text">{{ number_format($posting->price * $posting->quantity) }}円</td>
             </tr>
             @endforeach
-            @for ($i = 0; $i < 15 - count($postings); $i++)
+            @for ($i = 0; $i < 15 - count($invoice->postings); $i++)
             <tr>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
@@ -166,15 +166,15 @@
             <table class="bl_detail_bottomTable">
                 <tr>
                     <th>小計</th>
-                    <td class="price_text">{{ $formattedTotalPrice }}円</td>
+                    <td class="price_text">{{ $data['formattedTotalPrice'] }}円</td>
                 </tr>
                 <tr>
                     <th>消費税</th>
-                    <td class="price_text">{{ $formattedTaxAmount }}円</td>
+                    <td class="price_text">{{ $data['formattedTaxAmount'] }}円</td>
                 </tr>
                 <tr>
                     <th>合計</th>
-                    <td class="price_text">{{ $formattedTotalPriceIncludingTax }}円</td>
+                    <td class="price_text">{{ $data['formattedTotalPriceIncludingTax'] }}円</td>
                 </tr>
             </table>
         </div>

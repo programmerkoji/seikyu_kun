@@ -40,6 +40,9 @@
                                             掲載期間
                                         </th>
                                         <th scope="col" class="px-6 py-3 whitespace-nowrap">
+                                            部数
+                                        </th>
+                                        <th scope="col" class="px-6 py-3 whitespace-nowrap">
                                             掲載料金
                                         </th>
                                     </tr>
@@ -58,6 +61,9 @@
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             {{$posting->posting_term}}週間
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            {{$posting->quantity}}部
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             {{number_format($posting->price)}}円
