@@ -71,7 +71,10 @@ class InvoiceController extends Controller
 
     public function destroy($id)
     {
-        //
+        $this->invoiceRepository->destroy($id, []);
+        return redirect()
+        ->route('invoice.index')
+        ->with('message', '請求を削除しました');
     }
 
     public function downloadPDF(int $invoice_id)
