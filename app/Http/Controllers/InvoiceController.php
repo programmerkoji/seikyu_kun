@@ -37,14 +37,16 @@ class InvoiceController extends Controller
 
     public function index(Request $request)
     {
-        $keyword = $request->keyword;
-        if ($keyword) {
-            $query = $this->viewListInvoiceService->search($keyword);
+        $years = $this->viewListInvoiceService->getDistinctYears();
+        $months = $this->viewListInvoiceService->getDistinctMonths();
+        $input = $request->input();
+        if (!empty($input)) {
+            $query = $this->viewListInvoiceService->search($input);
         } else {
             $query = $this->viewListInvoiceService->all();
         }
         $invoices = $query->paginate(config('constants.pagination'))->withQueryString();
-        return view('invoice.index', compact('invoices'));
+        return view('invoice.index', compact('invoices', 'years', 'months', 'input'));
     }
 
     public function show($invoice_id)

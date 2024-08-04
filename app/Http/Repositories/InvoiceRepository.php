@@ -31,6 +31,16 @@ class InvoiceRepository
         return $this->invoice->with($relations);
     }
 
+    public function getDistinctYears()
+    {
+        return $this->invoice->selectRaw('DISTINCT billing_year')->pluck('billing_year');
+    }
+
+    public function getDistinctMonths()
+    {
+        return $this->invoice->selectRaw('DISTINCT billing_month')->pluck('billing_month');
+    }
+
     /**
      * @return Collection
      */

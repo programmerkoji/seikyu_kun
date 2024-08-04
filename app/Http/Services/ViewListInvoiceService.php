@@ -30,14 +30,37 @@ class ViewListInvoiceService
         return $this->invoiceRepository->getAll(['company', 'postings'])->orderBy('created_at', 'desc');
     }
 
-    public function search(string $keyword)
+    public function search(array $input)
     {
-        return $this->invoiceRepository->getAll(['company', 'postings'])->where(function ($q) use($keyword) {
-            $q->where('title', 'like', '%' . $keyword . '%');
-            $q->orWhere('note', 'like', '%' . $keyword . '%');
-        })->orWhereHas('company', function ($q) use ($keyword) {
-            $q->where('name', 'like', '%' . $keyword . '%');
-        })->orderBy('created_at', 'desc');
+        $query = $this->invoiceRepository->getAll(['company', 'postings']);
+        if ($input['keyword']) {
+            $keyword = $input['keyword'];
+            $query->where(function ($q) use($keyword) {
+                $q->where('title', 'like', '%' . $keyword . '%');
+                $q->orWhere('note', 'like', '%' . $keyword . '%');
+            })->orWhereHas('company', function ($q) use ($keyword) {
+                $q->where('name', 'like', '%' . $keyword . '%');
+            });
+        }
+        if ($input['searchYear']) {
+            $searchYear = (int)$input['searchYear'];
+            $query->where('billing_year', $searchYear);
+        }
+        if ($input['searchMonth']) {
+            $searchMonth = (int)$input['searchMonth'];
+            $query->where('billing_month', $searchMonth);
+        }
+        return $query->orderBy('created_at', 'desc');
+    }
+
+    public function getDistinctYears()
+    {
+        return $this->invoiceRepository->getDistinctYears();
+    }
+
+    public function getDistinctMonths()
+    {
+        return $this->invoiceRepository->getDistinctMonths();
     }
 
     /**
