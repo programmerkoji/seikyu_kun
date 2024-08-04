@@ -13,13 +13,13 @@
                                 <select name="searchYear" class="block text-sm font-medium w-full bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                     <option value="">年</option>
                                     @foreach ($years as $year)
-                                    <option value="{{$year}}" {{$year === (int)$input['searchYear'] ? 'selected' : ''}}>{{ $year }}</option>
+                                    <option value="{{$year}}" {{$year === $searchYear ? 'selected' : ''}}>{{ $year }}</option>
                                     @endforeach
                                 </select>
                                 <select name="searchMonth" class="block text-sm font-medium w-full bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                     <option value="">月</option>
                                     @foreach ($months as $month)
-                                    <option value="{{$month}}" {{$month === (int)$input['searchMonth'] ? 'selected' : ''}}>{{ $month }}</option>
+                                    <option value="{{$month}}" {{$month === $searchMonth ? 'selected' : ''}}>{{ $month }}</option>
                                     @endforeach
                                 </select>
                             </div>
