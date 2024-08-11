@@ -20,18 +20,12 @@ class InvoiceFactory extends Factory
     public function definition()
     {
         $companyIds = Company::pluck('id')->toArray();
-        $postings = Posting::get();
-        $postingIds = $postings->pluck('id')->toArray();
-        $ramdomPostingId = $this->faker->randomElement($postingIds);
-        $billingYear = $postings->firstWhere('id', $ramdomPostingId)?->posting_start ? (int)date('Y', strtotime($postings->firstWhere('id', $ramdomPostingId)->posting_start)) : 0;
-        $billingMonth = $postings->firstWhere('id', $ramdomPostingId)?->posting_start ? (int)date('m', strtotime($postings->firstWhere('id', $ramdomPostingId)->posting_start)) : 0;
 
         return [
             'company_id' => $this->faker->randomElement($companyIds),
-            'posting_id' => $ramdomPostingId,
             'title' => $this->faker->title,
-            'billing_year' => $billingYear,
-            'billing_month' => $billingMonth,
+            'billing_year' => $this->faker->randomElement([2023, 2024]),
+            'billing_month' => $this->faker->randomElement([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]),
             'note' => $this->faker->optional(0.3)->realText(),
         ];
     }

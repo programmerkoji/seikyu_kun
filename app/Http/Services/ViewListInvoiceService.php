@@ -30,11 +30,10 @@ class ViewListInvoiceService
         return $this->invoiceRepository->getAll(['company', 'postings'])->orderBy('created_at', 'desc');
     }
 
-    public function search(array $input)
+    public function search($searchYear, $searchMonth, $keyword)
     {
         $query = $this->invoiceRepository->getAll(['company', 'postings']);
-        if ($input['keyword']) {
-            $keyword = $input['keyword'];
+        if ($keyword) {
             $query->where(function ($q) use($keyword) {
                 $q->where('title', 'like', '%' . $keyword . '%');
                 $q->orWhere('note', 'like', '%' . $keyword . '%');
@@ -42,12 +41,10 @@ class ViewListInvoiceService
                 $q->where('name', 'like', '%' . $keyword . '%');
             });
         }
-        if ($input['searchYear']) {
-            $searchYear = (int)$input['searchYear'];
+        if ($searchYear) {
             $query->where('billing_year', $searchYear);
         }
-        if ($input['searchMonth']) {
-            $searchMonth = (int)$input['searchMonth'];
+        if ($searchMonth) {
             $query->where('billing_month', $searchMonth);
         }
         return $query->orderBy('created_at', 'desc');

@@ -20,9 +20,7 @@ class PostingFactory extends Factory
      */
     public function definition()
     {
-        $date = $this->faker->dateTimeBetween('-3 week');
         $contentArray = ['春の感謝キャンペーン適用', 'A,Bプランの長期キャンペーン適用', 'Dプラン1週追加キャンペーン適用'];
-        // $companyIds = Company::pluck('id')->toArray();
         $productIds = Product::pluck('id')->toArray();
         $invoices = Invoice::all();
         $invoiceId = $this->faker->randomElement($invoices->pluck('id')->toArray());

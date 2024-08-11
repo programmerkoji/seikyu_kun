@@ -32,6 +32,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/company/import', [CompanyController::class, 'import'])->name('company.import');
     Route::resource('/invoice', InvoiceController::class)->except(['create', 'store']);
     Route::get('/invoice/{invoice}/pdf', [InvoiceController::class, 'downloadPDF'])->name('invoice.downloadPDF');
+    Route::post('/invoice/download-multiple', [InvoiceController::class, 'downloadMultiplePDFs'])->name('invoice.downloadMultiplePDFs');
     Route::resource('/posting', PostingController::class);
     Route::resource('/product', ProductController::class)->except('show');
     Route::get('/autocomplete', [AutocompleteController::class, 'company']);

@@ -18,13 +18,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        Company::factory(30)->create();
+        Company::factory(50)->create();
         $this->call([
             UserSeeder::class,
             ProductSeeder::class,
             // PostingSeeder::class,
         ]);
-        Invoice::factory(30)->create();
-        Posting::factory(100)->create();
+        Invoice::factory(100)->create();
+        Posting::factory(300)->create();
     }
 }

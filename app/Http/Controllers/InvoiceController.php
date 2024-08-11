@@ -10,6 +10,7 @@ use App\Models\Company;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use PDF;
+use ZipArchive;
 
 class InvoiceController extends Controller
 {
@@ -39,18 +40,17 @@ class InvoiceController extends Controller
     {
         $years = $this->viewListInvoiceService->getDistinctYears();
         $months = $this->viewListInvoiceService->getDistinctMonths();
-        $input = $request->input();
-        $searchYear = 0;
-        $searchMonth = 0;
-        if (!empty($input)) {
-            $searchYear = (int)$input['searchYear'];
-            $searchMonth = (int)$input['searchMonth'];
-            $query = $this->viewListInvoiceService->search($input);
+        $searchYear = $request->input('searchYear');
+        $searchMonth = $request->input('searchMonth');
+        $keyword = $request->input('keyword');
+        if ($searchYear || $searchMonth || $keyword) {
+            $query = $this->viewListInvoiceService->search($searchYear, $searchMonth, $keyword);
         } else {
             $query = $this->viewListInvoiceService->all();
         }
+        $totalInvoiceIds = $query->pluck('id');
         $invoices = $query->paginate(config('constants.pagination'))->withQueryString();
-        return view('invoice.index', compact('invoices', 'years', 'months', 'searchYear', 'searchMonth'));
+        return view('invoice.index', compact('invoices', 'years', 'months', 'searchYear', 'searchMonth', 'totalInvoiceIds'));
     }
 
     public function show($invoice_id)
@@ -77,13 +77,35 @@ class InvoiceController extends Controller
         ->with('message', '請求を削除しました');
     }
 
-    public function downloadPDF(int $invoice_id)
+    public function downloadMultiplePDFs(Request $request)
     {
-        $invoice = $this->viewListInvoiceService->findByOne($invoice_id);
-        $data['endOfMonth'] = $this->invoiceDownloadPDFService->getEndOfMonth($invoice);
-        $data += $this->invoiceDownloadPDFService->getTotalPriceWithTax($invoice);
-        $fileName = $this->invoiceDownloadPDFService->generateFilename($invoice);
-        $pdf = PDF::loadView('pdf.invoice', compact('invoice', 'data'));
-        return $pdf->stream($fileName);
+        $invoiceIds = $request->input('invoice_ids');
+        $zip = new ZipArchive;
+        $zipFileName = 'invoice.zip';
+
+        if (empty($invoiceIds)) {
+            return redirect()
+                ->route('invoice.index')
+                ->with('message', 'ダウンロードできる請求がありません');
+        }
+        if ($zip->open(storage_path($zipFileName), ZipArchive::CREATE) === TRUE) {
+            foreach ($invoiceIds as $invoice_id) {
+                $invoice = $this->viewListInvoiceService->findByOne($invoice_id);
+                $data['endOfMonth'] = $this->invoiceDownloadPDFService->getEndOfMonth($invoice);
+                $data += $this->invoiceDownloadPDFService->getTotalPriceWithTax($invoice);
+                $fileName = $this->invoiceDownloadPDFService->generateFilename($invoice);
+                $pdf = PDF::loadView('pdf.invoice', compact('invoice', 'data'));
+
+                // 一時ファイルにPDFを保存
+                $tempPath = storage_path('app/temp/' . $fileName);
+                $pdf->save($tempPath);
+
+                // ZIPファイルに追加
+                $zip->addFile($tempPath, $fileName);
+            }
+            $zip->close();
+        }
+
+        return response()->download(storage_path($zipFileName))->deleteFileAfterSend(true);
     }
 }

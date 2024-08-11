@@ -33,12 +33,12 @@ class InvoiceRepository
 
     public function getDistinctYears()
     {
-        return $this->invoice->selectRaw('DISTINCT billing_year')->pluck('billing_year');
+        return $this->invoice->selectRaw('DISTINCT billing_year')->orderBy('billing_year', 'desc')->pluck('billing_year');
     }
 
     public function getDistinctMonths()
     {
-        return $this->invoice->selectRaw('DISTINCT billing_month')->pluck('billing_month');
+        return $this->invoice->selectRaw('DISTINCT billing_month')->orderBy('billing_month', 'asc')->pluck('billing_month');
     }
 
     /**
