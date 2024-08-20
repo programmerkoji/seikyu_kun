@@ -69,4 +69,14 @@ class ViewListInvoiceService
             'company:id,name', 'postings', 'postings.product'
         ]);
     }
+
+    /**
+     * @param array
+     */
+    public function findByIds(array $invoiceIds)
+    {
+        return $this->invoiceRepository->findByIds($invoiceIds, [
+            'company:id,name', 'postings', 'postings.product'
+        ]);
+    }
 }

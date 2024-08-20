@@ -88,9 +88,9 @@ class InvoiceController extends Controller
                 ->route('invoice.index')
                 ->with('message', 'ダウンロードできる請求がありません');
         }
+        $invoices = $this->viewListInvoiceService->findByIds($invoiceIds)->get();
         if ($zip->open(storage_path($zipFileName), ZipArchive::CREATE) === TRUE) {
-            foreach ($invoiceIds as $invoice_id) {
-                $invoice = $this->viewListInvoiceService->findByOne($invoice_id);
+            foreach ($invoices as $invoice) {
                 $data['endOfMonth'] = $this->invoiceDownloadPDFService->getEndOfMonth($invoice);
                 $data += $this->invoiceDownloadPDFService->getTotalPriceWithTax($invoice);
                 $fileName = $this->invoiceDownloadPDFService->generateFilename($invoice);
