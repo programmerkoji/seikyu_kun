@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Repositories\InvoiceRepository;
 use App\Http\Requests\InvoiceRequest;
 use App\Http\Services\InvoiceDownloadPDFService;
+use App\Http\Services\PostingInvoiceService;
 use App\Http\Services\ViewListInvoiceService;
 use App\Models\Company;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use PDF;
 use ZipArchive;
 
@@ -20,7 +22,7 @@ class InvoiceController extends Controller
     protected $viewListInvoiceService;
 
     /**
-     * @var $invoiceDownloadPDFService
+     * @var InvoiceDownloadPDFService
      */
     protected $invoiceDownloadPDFService;
 
@@ -29,11 +31,17 @@ class InvoiceController extends Controller
      */
     protected $invoiceRepository;
 
+    /**
+     * @var PostingInvoiceService
+     */
+    protected $postingInvoiceService;
+
     public function __construct()
     {
         $this->viewListInvoiceService = new ViewListInvoiceService();
         $this->invoiceDownloadPDFService = new InvoiceDownloadPDFService();
         $this->invoiceRepository = new InvoiceRepository();
+        $this->postingInvoiceService = new PostingInvoiceService();
     }
 
     public function index(Request $request)
@@ -59,6 +67,35 @@ class InvoiceController extends Controller
         return view('invoice.detail', compact('invoice'));
     }
 
+    public function create()
+    {
+        $postingData = session('postingData');
+        $companyId = $postingData['company_id'] ?? null;
+        if (!$postingData) {
+            return redirect()
+                ->route('posting.create')
+                ->with('error', '掲載データがありません。');
+        }
+        if ($companyId) {
+            $companyData = $this->viewListInvoiceService->getCompanyInfoByPosting($companyId);
+            $invoiceDatas = $this->viewListInvoiceService->findByCompanyId($companyId)->get();
+        }
+        return view('invoice.create', compact('companyData', 'invoiceDatas'));
+    }
+
+    public function store(InvoiceRequest $request)
+    {
+        try {
+            $this->postingInvoiceService->createPostingWithInvoice($request->all());
+            return redirect()->route('posting.index')->with('message', '登録が完了しました。');
+        } catch (\Exception $e) {
+            Log::channel('daily')->error('エラーメッセージ', [
+                'exception' => $e,
+            ]);
+            return back()->withErrors(['error' => '請求データの登録に失敗しました。']);
+        }
+    }
+
     public function edit($id)
     {
         //
@@ -73,8 +110,8 @@ class InvoiceController extends Controller
     {
         $this->invoiceRepository->destroy($id, []);
         return redirect()
-        ->route('invoice.index')
-        ->with('message', '請求を削除しました');
+            ->route('invoice.index')
+            ->with('message', '請求を削除しました');
     }
 
     public function downloadMultiplePDFs(Request $request)

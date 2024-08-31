@@ -29,10 +29,9 @@ class PostingRequest extends FormRequest
             'posting_term' => ['required', 'integer'],
             'posting_start' => ['required', 'date'],
             'quantity' => ['required', 'integer'],
+            'quantity' => ['required', 'integer'],
+            'price' => ['required', 'integer'],
             'content' => ['required', 'max:30'],
-            'title' => ['required', 'max:30'],
-            'billing_year' => ['required'],
-            'billing_month' => ['required'],
         ];
     }
 
@@ -47,12 +46,10 @@ class PostingRequest extends FormRequest
             'posting_start.required' => '掲載開始日は日付形式で入力してください。',
             'quantity.required' => '数量を入力してください。',
             'quantity.integer' => '数量は半角の数字で入力してください。',
+            'price.required' => '金額を入力してください。',
+            'price.integer' => '金額は半角の数字で入力してください。',
             'content.required' => '掲載内容を入力してください。',
             'content.max' => '掲載内容は30文字以内で入力してください。',
-            'title.required' => '請求タイトルを入力してください。',
-            'title.max' => '請求タイトルは30文字以内で入力してください。',
-            'billing_year.required' => '請求年を入力してください。',
-            'billing_month.required' => '請求月を選択してください。',
         ];
     }
 }

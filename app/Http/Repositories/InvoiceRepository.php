@@ -52,11 +52,32 @@ class InvoiceRepository
             ->findOrFail($invoice_id);
     }
 
+    public function findByCompanyId(int $companyId)
+    {
+        return $this->invoice->where('company_id', $companyId);
+    }
+
     public function findByIds(array $invoiceIds, array $relations)
     {
         return $this->invoice
             ->with($relations)
             ->whereIn('id', $invoiceIds);
+    }
+
+    public function create($data)
+    {
+        try {
+            DB::beginTransaction();
+            $invoice = new Invoice;
+            $invoice->fill($data)->save();
+            DB::commit();
+            return $invoice;
+        } catch (\Throwable $th) {
+            dd($th);
+            Log::error($th);
+            DB::rollback();
+            return null;
+        }
     }
     public function update(array $data, $inovice_id, array $relations)
     {

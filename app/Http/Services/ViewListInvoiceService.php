@@ -2,6 +2,7 @@
 
 namespace App\Http\Services;
 
+use App\Http\Repositories\CompanyRepository;
 use App\Http\Repositories\InvoiceRepository;
 use App\Http\Repositories\PostingRepository;
 
@@ -15,14 +16,21 @@ class ViewListInvoiceService
      * @var PostingRepository
      */
     protected $postingRepository;
+    /**
+     * @var CompnayRepository
+     */
+    protected $companyRepository;
 
     /**
-     * @param InvoiceRepository $procuctRepository
+     * @param InvoiceRepository $invoiceRepository
+     * @param PostingRepository $postingRepository
+     * @param CompanyRepository $companyRepository
      */
     public function __construct()
     {
         $this->invoiceRepository = new InvoiceRepository();
         $this->postingRepository = new PostingRepository();
+        $this->companyRepository = new CompanyRepository();
     }
 
     public function all()
@@ -70,6 +78,11 @@ class ViewListInvoiceService
         ]);
     }
 
+    public function findByCompanyId(int $companyId)
+    {
+        return $this->invoiceRepository->findByCompanyId($companyId)->orderBy('billing_year', 'desc')->orderBy('billing_month', 'desc');
+    }
+
     /**
      * @param array
      */
@@ -78,5 +91,10 @@ class ViewListInvoiceService
         return $this->invoiceRepository->findByIds($invoiceIds, [
             'company:id,name', 'postings', 'postings.product'
         ]);
+    }
+
+    public function getCompanyInfoByPosting($companyId)
+    {
+        return $this->companyRepository->findByOne($companyId);
     }
 }

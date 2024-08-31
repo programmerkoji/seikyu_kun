@@ -12,7 +12,6 @@ class Invoice extends Model
 
     protected $fillable = [
         'company_id',
-        'posting_id',
         'title',
         'billing_year',
         'billing_month',

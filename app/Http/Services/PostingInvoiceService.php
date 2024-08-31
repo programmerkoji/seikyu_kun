@@ -30,14 +30,26 @@ class PostingInvoiceService
         $this->invoiceRepository = new InvoiceRepository();
     }
 
-    public function createPostingWithInvoice(array $postingData, array $invoiceData)
+    public function createPostingWithInvoice($request)
     {
         DB::beginTransaction();
         try {
-            $this->postingRepository->create($postingData);
-            $this->invoiceRepository->create($invoiceData);
+            $postingData = session('postingData');
+            $selectedInvoiceId = $request['selectedInvoiceId'] ?? null;
+            $invoiceData = $request['invoice'] ?? null;
+            if ($selectedInvoiceId) {
+                $postingData['invoice_id'] = $selectedInvoiceId;
+                $this->postingRepository->create($postingData);
+            } else {
+                $invoiceData['company_id'] = $postingData['company_id'];
+                $invoice = $this->invoiceRepository->create($invoiceData);
+                $postingData['invoice_id'] = $invoice->id;
+                $this->postingRepository->create($postingData);
+            }
             DB::commit();
-        } catch (Exception $e) {
+            session()->forget('posting_data');
+        } catch (\Exception $e) {
+            DB::rollBack();
             throw $e;
         }
     }

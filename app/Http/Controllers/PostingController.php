@@ -10,6 +10,7 @@ use App\Http\Services\PostingInvoiceService;
 use App\Http\Services\ViewListPostingService;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class PostingController extends Controller
 {
@@ -48,6 +49,7 @@ class PostingController extends Controller
      */
     public function index(Request $request)
     {
+        session()->forget('postingData');
         $keyword = $request->keyword;
         if ($keyword) {
             $query = $this->viewListPostingService->search($keyword);
@@ -74,28 +76,26 @@ class PostingController extends Controller
     public function store(PostingRequest $request)
     {
         $validatedData = $request->validated();
-        $postingData = [
-            'company_id' => $validatedData['company_id'],
-            'product_id' => $validatedData['product_id'],
-            'posting_term' => $validatedData['posting_term'],
-            'posting_start' => $validatedData['posting_start'],
-            'quantity' => $validatedData['quantity'],
-            'content' => $validatedData['content'],
-            'note' => $request->input('note'),
-        ];
-        $invoiceData = [
-            'company_id' => $validatedData['company_id'],
-            'title' => $validatedData['title'],
-            'billing_year' => $validatedData['billing_year'],
-            'billing_month' => $validatedData['billing_month'],
-        ];
         try {
-            $this->postingInvoiceService->createPostingWithInvoice($postingData, $invoiceData);
-            return redirect()
-            ->route('posting.index')
-            ->with('message', '掲載を登録しました');
+            $postingData = [
+                'company_id' => $validatedData['company_id'],
+                'product_id' => $validatedData['product_id'],
+                'posting_term' => $validatedData['posting_term'],
+                'posting_start' => $validatedData['posting_start'],
+                'quantity' => $validatedData['quantity'],
+                'content' => $validatedData['content'],
+                'price' => $validatedData['price'],
+                'note' => $request->input('note'),
+            ];
+            session(['postingData' => $postingData]);
+            return redirect()->route('invoice.create');
         } catch (Exception $e) {
-            throw $e;
+            Log::channel('daily')->error('エラーメッセージ', [
+                'exception' => $e,
+            ]);
+            return redirect()
+                ->route('posting.create')
+                ->with('error', '処理が正しくできませんでした。');
         }
     }
 

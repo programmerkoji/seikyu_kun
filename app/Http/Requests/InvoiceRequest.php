@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 
 class InvoiceRequest extends FormRequest
@@ -23,22 +24,38 @@ class InvoiceRequest extends FormRequest
      */
     public function rules()
     {
+        $selectedInvoiceId = $this->input('selectedInvoiceId');
+        $invoice = $this->input('invoice');
+        if ($selectedInvoiceId && $invoice) {
+            return [];
+        }
         return [
-            'company_id' => ['required'],
-            'title' => ['required', 'max:30'],
-            'billing_year' => ['required'],
-            'billing_month' => ['required'],
+            'invoice.title' => ['required', 'max:30'],
+            'invoice.billing_year' => ['required'],
+            'invoice.billing_month' => ['required'],
         ];
     }
 
     public function messages()
     {
         return [
-            'company_id.required' => '企業名を入力してください。',
-            'title.required' => '請求タイトルを入力してください。',
-            'title.max' => '請求タイトルは30文字以内で入力してください。',
-            'billing_year.required' => '請求年を入力してください。',
-            'billing_month.required' => '請求月を選択してください。',
+            'invoice.title.required' => '請求タイトルを入力してください。',
+            'invoice.title.max' => '請求タイトルは30文字以内で入力してください。',
+            'invoice.billing_year.required' => '請求年を入力してください。',
+            'invoice.billing_month.required' => '請求月を選択してください。',
+            'selectedInvoiceId.invoice_conflict' => '①、②のどちらか一方を指定してください。',
         ];
+    }
+
+    protected function withValidator(Validator $validator)
+    {
+        $validator->after(function ($validator) {
+            $selectedInvoiceId = $this->input('selectedInvoiceId');
+            $invoice = $this->input('invoice');
+
+            if ($selectedInvoiceId && $invoice) {
+                $validator->errors()->add('selectedInvoiceId', '①、②のどちらか一方を指定してください。');
+            }
+        });
     }
 }
