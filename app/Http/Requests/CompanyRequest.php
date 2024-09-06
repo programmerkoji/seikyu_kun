@@ -26,7 +26,7 @@ class CompanyRequest extends FormRequest
     {
         $companyId = (int)$this->route('company');
         return [
-            'name' => ['required', Rule::unique('companies')->ignore($companyId)->whereNull('deleted_at')],
+            'name' => ['required', Rule::unique('companies')->ignore($companyId)],
             'post_code' => ['required'],
             'address' => ['required'],
             'tel' => ['required'],

@@ -5,3 +5,14 @@ body {
     -webkit-text-size-adjust: 100%;
     font-feature-settings: "palt";
 }
+
+.js_accordion_conts {
+    height: 0;
+    overflow: hidden;
+    transition: .4s ease;
+}
+.js_accordion_conts.is_open {
+    height: auto;
+    opacity: 1;
+    transition: .4s ease;
+}
