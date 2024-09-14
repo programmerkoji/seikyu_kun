@@ -65,9 +65,9 @@ class CompanyRepository
             $company = new Company;
             $company->fill($data)->save();
             DB::commit();
-        } catch (\Throwable $th) {
-            Log::error($th);
+        } catch (\Exception $e) {
             DB::rollback();
+            throw $e;
         }
     }
 
@@ -79,9 +79,9 @@ class CompanyRepository
                 ->fill($data)
                 ->save();
             DB::commit();
-        } catch (\Throwable $th) {
-            Log::error($th);
+        } catch (\Exception $e) {
             DB::rollback();
+            throw $e;
         }
     }
 
@@ -92,9 +92,9 @@ class CompanyRepository
             $this->findByOne($company_id)
                 ->delete();
             DB::commit();
-        } catch (\Throwable $th) {
-            Log::error($th);
+        } catch (\Exception $e) {
             DB::rollback();
+            throw $e;
         }
     }
 }

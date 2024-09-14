@@ -8,6 +8,7 @@ use App\Http\Requests\ImportCsvRequest;
 use App\Http\Services\ViewListCompanyService;
 use App\Imports\CompaniesImport;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
 
 class CompanyController extends Controller
@@ -57,8 +58,15 @@ class CompanyController extends Controller
      */
     public function store(CompanyRequest $request)
     {
-        $this->companyRepository->create($request->toArray());
-        return redirect()->route('company.index')->with('message', '企業を登録しました');
+        try {
+            $this->companyRepository->create($request->toArray());
+            return redirect()->route('company.index')->with('message', '企業を登録しました');
+        } catch (\Exception $e) {
+            Log::channel('daily')->error('エラーメッセージ', [
+                'exception' => $e,
+            ]);
+            return back()->with('error', '請求データの登録に失敗しました。')->withInput();
+        }
     }
 
     /**
@@ -77,10 +85,17 @@ class CompanyController extends Controller
      */
     public function update(CompanyRequest $request, int $company_id)
     {
-        $this->companyRepository->update($request->toArray(), $company_id);
-        return redirect()
-        ->route('company.index')
-        ->with('message', '企業を編集しました');
+        try {
+            $this->companyRepository->update($request->toArray(), $company_id);
+            return redirect()
+            ->route('company.index')
+            ->with('message', '企業を編集しました');
+        } catch (\Exception $e) {
+            Log::channel('daily')->error('エラーメッセージ', [
+                'exception' => $e,
+            ]);
+            return back()->with('error', '請求データの更新に失敗しました。')->withInput();
+        }
     }
 
     /**
@@ -88,10 +103,17 @@ class CompanyController extends Controller
      */
     public function destroy(int $company_id)
     {
-        $this->companyRepository->destroy($company_id);
-        return redirect()
-        ->route('company.index')
-        ->with('message', '企業を削除しました');
+        try {
+            $this->companyRepository->destroy($company_id);
+            return redirect()
+            ->route('company.index')
+            ->with('message', '企業を削除しました');
+        } catch (\Exception $e) {
+            Log::channel('daily')->error('エラーメッセージ', [
+                'exception' => $e,
+            ]);
+            return back()->with('error', '請求データの削除に失敗しました。');
+        }
     }
 
     public function import(ImportCsvRequest $request)

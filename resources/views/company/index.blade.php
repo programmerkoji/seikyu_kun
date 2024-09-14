@@ -78,5 +78,11 @@
             toastr.success('{{ session("message") }}')
         });
     </script>
+    @elseif (session('error'))
+    <script>
+        $(function() {
+            toastr.error('{{ session("error") }}')
+        });
+    </script>
     @endif
 </x-app-layout>

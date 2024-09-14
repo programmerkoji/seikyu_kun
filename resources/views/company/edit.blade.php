@@ -82,4 +82,11 @@
             </div>
         </div>
     </div>
+    @if (session('error'))
+    <script>
+        $(function() {
+            toastr.error('{{ session("error") }}')
+        });
+    </script>
+    @endif
 </x-app-layout>

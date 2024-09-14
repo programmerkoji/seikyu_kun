@@ -64,8 +64,14 @@ return [
         ],
 
         'daily' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/') . date('Y/m') . '/' . date('d') . '/laravel.log',
+            'level' => 'info',
+        ],
+
+        'info_log' => [
             'driver' => 'daily',
-            'path' => storage_path('logs/') . date('Y/m') . '/laravel.log',
+            'path' => storage_path('logs/') . date('Y/m') . '/' . date('d') . '/info.log',
             'level' => env('LOG_LEVEL', 'debug'),
             'days' => 14,
         ],
