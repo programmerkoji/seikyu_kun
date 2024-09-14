@@ -61,8 +61,15 @@ class PostingRepository
 
     public function create(array $data)
     {
-        $posting = new Posting;
-        $posting->fill($data)->save();
+        try {
+            DB::beginTransaction();
+            $posting = new Posting;
+            $posting->fill($data)->save();
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
     }
 
     public function update(array $data, $posting_id)
@@ -73,9 +80,9 @@ class PostingRepository
                 ->fill($data)
                 ->save();
             DB::commit();
-        } catch (\Throwable $th) {
-            Log::error($th);
+        } catch (\Exception $e) {
             DB::rollback();
+            throw $e;
         }
     }
 
@@ -86,9 +93,9 @@ class PostingRepository
             $this->findByOne($posting_id)
                 ->delete();
             DB::commit();
-        } catch (\Throwable $th) {
-            Log::error($th);
+        } catch (\Throwable $e) {
             DB::rollback();
+            throw $e;
         }
     }
 }

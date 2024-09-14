@@ -26,14 +26,17 @@ class InvoiceRequest extends FormRequest
     {
         $selectedInvoiceId = $this->input('selectedInvoiceId');
         $invoice = $this->input('invoice');
-        if ($selectedInvoiceId && $invoice) {
+        if (($selectedInvoiceId && !empty(array_filter($invoice))) || (!$selectedInvoiceId && empty(array_filter($invoice)))) {
             return [];
         }
-        return [
-            'invoice.title' => ['required', 'max:30'],
-            'invoice.billing_year' => ['required'],
-            'invoice.billing_month' => ['required'],
-        ];
+        if (!empty(array_filter($invoice))) {
+            return [
+                'invoice.title' => ['required', 'max:30'],
+                'invoice.billing_year' => ['required'],
+                'invoice.billing_month' => ['required'],
+            ];
+        }
+        return [];
     }
 
     public function messages()
@@ -53,7 +56,7 @@ class InvoiceRequest extends FormRequest
             $selectedInvoiceId = $this->input('selectedInvoiceId');
             $invoice = $this->input('invoice');
 
-            if ($selectedInvoiceId && $invoice) {
+            if (($selectedInvoiceId && !empty(array_filter($invoice))) || (!$selectedInvoiceId && empty(array_filter($invoice)))) {
                 $validator->errors()->add('selectedInvoiceId', '①、②のどちらか一方を指定してください。');
             }
         });

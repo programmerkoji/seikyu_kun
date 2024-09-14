@@ -92,7 +92,7 @@ class InvoiceController extends Controller
             Log::channel('daily')->error('エラーメッセージ', [
                 'exception' => $e,
             ]);
-            return back()->withErrors(['error' => '請求データの登録に失敗しました。']);
+            return back()->with('error', '請求データ、または掲載データの登録に失敗しました。')->withInput();
         }
     }
 
@@ -108,10 +108,17 @@ class InvoiceController extends Controller
 
     public function destroy($id)
     {
-        $this->invoiceRepository->destroy($id, []);
-        return redirect()
-            ->route('invoice.index')
-            ->with('message', '請求を削除しました');
+        try {
+            $this->invoiceRepository->destroy($id, []);
+            return redirect()
+                ->route('invoice.index')
+                ->with('message', '請求を削除しました');
+        } catch (\Exception $e) {
+            Log::channel('daily')->error('エラーメッセージ', [
+                'exception' => $e,
+            ]);
+            return back()->with('error', '請求データ、または掲載データの削除に失敗しました。');
+        }
     }
 
     public function downloadMultiplePDFs(Request $request)

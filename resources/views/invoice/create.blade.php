@@ -43,7 +43,7 @@
                                 <div class="md:w-1/2">
                                     <label for="billing_year" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">請求年</label>
                                     <div class="flex items-center gap-2">
-                                        <input type="text" id="billing_year" name="invoice[billing_year]" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{old('invoice.billing_year', '2024')}}">
+                                        <input type="text" id="billing_year" name="invoice[billing_year]" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{old('invoice.billing_year')}}">
                                         <span class="whitespace-nowrap">年</span>
                                     </div>
                                     @error('invoice.billing_year')
@@ -149,4 +149,11 @@
             });
         });
     </script>
+    @if (session('error'))
+    <script>
+        $(function() {
+            toastr.error('{{ session("error") }}')
+        });
+    </script>
+    @endif
 </x-app-layout>

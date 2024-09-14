@@ -72,11 +72,9 @@ class InvoiceRepository
             $invoice->fill($data)->save();
             DB::commit();
             return $invoice;
-        } catch (\Throwable $th) {
-            dd($th);
-            Log::error($th);
+        } catch (\Exception $e) {
             DB::rollback();
-            return null;
+            throw $e;
         }
     }
     public function update(array $data, $inovice_id, array $relations)
@@ -87,9 +85,9 @@ class InvoiceRepository
                 ->fill($data)
                 ->save();
             DB::commit();
-        } catch (\Throwable $th) {
-            Log::error($th);
+        } catch (\Exception $e) {
             DB::rollback();
+            throw $e;
         }
     }
 
@@ -100,9 +98,9 @@ class InvoiceRepository
             $this->findByOne($inovice_id, $relations)
                 ->delete();
             DB::commit();
-        } catch (\Throwable $th) {
-            Log::error($th);
+        } catch (\Exception $e) {
             DB::rollback();
+            throw $e;
         }
     }
 }
