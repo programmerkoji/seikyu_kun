@@ -7,8 +7,6 @@ use App\Http\Requests\InvoiceRequest;
 use App\Http\Services\InvoiceDownloadPDFService;
 use App\Http\Services\PostingInvoiceService;
 use App\Http\Services\ViewListInvoiceService;
-use App\Models\Company;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use PDF;
@@ -63,7 +61,7 @@ class InvoiceController extends Controller
 
     public function show($invoice_id)
     {
-        $invoice = $this->viewListInvoiceService->findByOne($invoice_id);
+        $invoice = $this->viewListInvoiceService->findByOne($invoice_id, ['company:id,name', 'postings', 'postings.product']);
         return view('invoice.detail', compact('invoice'));
     }
 
@@ -96,14 +94,23 @@ class InvoiceController extends Controller
         }
     }
 
-    public function edit($id)
+    public function edit($invoiceId)
     {
-        //
+        $invoice = $this->viewListInvoiceService->findByOne($invoiceId, []);
+        return view('invoice.edit', compact('invoice'));
     }
 
-    public function update(Request $request, $id)
+    public function update(InvoiceRequest $request, $invoiceId)
     {
-        //
+        try {
+            $this->invoiceRepository->update($request->toArray(), $invoiceId, []);
+            return redirect()->route('invoice.show', ['invoice' => $invoiceId])->with('message', '編集が完了しました。');
+        } catch (\Exception $e) {
+            Log::channel('daily')->error('エラーメッセージ', [
+                'exception' => $e,
+            ]);
+            return back()->with('error', '請求データ、または掲載データの登録に失敗しました。')->withInput();
+        }
     }
 
     public function destroy($id)

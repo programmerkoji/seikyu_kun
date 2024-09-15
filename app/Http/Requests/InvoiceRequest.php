@@ -24,16 +24,32 @@ class InvoiceRequest extends FormRequest
      */
     public function rules()
     {
-        $selectedInvoiceId = $this->input('selectedInvoiceId');
-        $invoice = $this->input('invoice');
-        if (($selectedInvoiceId && !empty(array_filter($invoice))) || (!$selectedInvoiceId && empty(array_filter($invoice)))) {
-            return [];
-        }
-        if (!empty(array_filter($invoice))) {
+        if ($this->isMethod('post')) {
+            $selectedInvoiceId = $this->input('selectedInvoiceId');
+            $invoice = $this->input('invoice');
+            if (($selectedInvoiceId && !empty(array_filter($invoice))) || (!$selectedInvoiceId && empty(array_filter($invoice)))) {
+                return [];
+            }
+            if (!empty(array_filter($invoice))) {
+                return [
+                    'invoice.title' => ['required', 'max:30'],
+                    'invoice.billing_year' => ['required'],
+                    'invoice.billing_month' => ['required'],
+                ];
+            }
+        } elseif ($this->isMethod('put') || $this->isMethod('patch')) {
+            $invoiceId = $this->route('invoice');
             return [
-                'invoice.title' => ['required', 'max:30'],
-                'invoice.billing_year' => ['required'],
-                'invoice.billing_month' => ['required'],
+                'title' => [
+                    'required',
+                    'max:30',
+                    function ($attribute, $value, $fail) use ($invoiceId) {
+                        $existsInvoiceId = \App\Models\Invoice::find($invoiceId)->title;
+                        if ($value !== $existsInvoiceId && empty($value)) {
+                            $fail('請求タイトルは必須です。');
+                        }
+                    }
+                ],
             ];
         }
         return [];
@@ -47,6 +63,8 @@ class InvoiceRequest extends FormRequest
             'invoice.billing_year.required' => '請求年を入力してください。',
             'invoice.billing_month.required' => '請求月を選択してください。',
             'selectedInvoiceId.invoice_conflict' => '①、②のどちらか一方を指定してください。',
+            'title.required' => '請求タイトルは必須です。',
+            'title.max' => '請求タイトルは30文字以内で入力してください。',
         ];
     }
 
@@ -56,8 +74,10 @@ class InvoiceRequest extends FormRequest
             $selectedInvoiceId = $this->input('selectedInvoiceId');
             $invoice = $this->input('invoice');
 
-            if (($selectedInvoiceId && !empty(array_filter($invoice))) || (!$selectedInvoiceId && empty(array_filter($invoice)))) {
-                $validator->errors()->add('selectedInvoiceId', '①、②のどちらか一方を指定してください。');
+            if ($this->isMethod('post')) {
+                if (($selectedInvoiceId && !empty(array_filter($invoice))) || (!$selectedInvoiceId && empty(array_filter($invoice)))) {
+                    $validator->errors()->add('selectedInvoiceId', '①、②のどちらか一方を指定してください。');
+                }
             }
         });
     }
