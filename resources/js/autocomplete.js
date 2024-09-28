@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
         data: {
             src: async (query) => {
                 try {
-                    const source = await fetch(`/autocomplete?query=${query}`);
+                    const source = await fetch(`${window.location.origin}/autocomplete?query=${query}`);
                     const data = await source.json();
                     companyData = data;
                     return data.map((item) => item.name);
