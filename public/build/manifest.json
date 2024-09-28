@@ -53,7 +53,7 @@
     "src": "resources/js/app.js"
   },
   "resources/js/autocomplete.js": {
-    "file": "assets/autocomplete-7b9a4c7b.js",
+    "file": "assets/autocomplete-4afbf5e7.js",
     "imports": [
       "__commonjsHelpers-725317a4.js"
     ],

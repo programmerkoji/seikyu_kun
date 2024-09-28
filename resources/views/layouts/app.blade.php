@@ -35,6 +35,10 @@
             <!-- Page Content -->
             <main>
                 {{ $slot }}
+
+                <script>
+                    const basePath = "{{ env('BASE_PATH', '') }}";
+                </script>
             </main>
         </div>
     </body>
