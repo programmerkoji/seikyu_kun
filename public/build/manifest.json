@@ -47,6 +47,14 @@
     "isEntry": true,
     "src": "resources/js/app.js"
   },
+  "resources/js/autocomplete.js": {
+    "file": "assets/autocomplete-7b9a4c7b.js",
+    "imports": [
+      "__commonjsHelpers-725317a4.js"
+    ],
+    "isEntry": true,
+    "src": "resources/js/autocomplete.js"
+  },
   "resources/js/flatpickr.css": {
     "file": "assets/flatpickr-21fdfc57.css",
     "src": "resources/js/flatpickr.css"
