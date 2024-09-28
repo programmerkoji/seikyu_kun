@@ -39,6 +39,11 @@
     "isEntry": true,
     "src": "resources/css/app.css"
   },
+  "resources/css/autocomplete.css": {
+    "file": "assets/autocomplete-476be096.css",
+    "isEntry": true,
+    "src": "resources/css/autocomplete.css"
+  },
   "resources/js/app.js": {
     "file": "assets/app-944f2377.js",
     "imports": [

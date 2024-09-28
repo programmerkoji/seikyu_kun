@@ -9,6 +9,7 @@ export default defineConfig({
                 'resources/js/app.js',
                 'resources/js/flatpickr.js',
                 'resources/js/autocomplete.js',
+                'resources/css/autocomplete.css',
             ],
             refresh: true,
         }),
