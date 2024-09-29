@@ -21,9 +21,9 @@
         @endif
     </div>
 
-    <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+    <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between gap-2 overflow-x-scroll">
         <div>
-            <p class="text-sm text-gray-700 leading-5">
+            <p class="text-sm text-gray-700 leading-5 whitespace-nowrap">
                     <span class="font-medium">{{ $paginator->total() }}件中</span>
                     @if ($paginator->firstItem())
                         <span class="font-medium">{{ $paginator->firstItem() }}件〜</span>
