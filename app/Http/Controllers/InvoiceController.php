@@ -8,6 +8,7 @@ use App\Http\Services\InvoiceDownloadPDFService;
 use App\Http\Services\PostingInvoiceService;
 use App\Http\Services\ViewListInvoiceService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use PDF;
 use ZipArchive;
@@ -133,11 +134,15 @@ class InvoiceController extends Controller
         $invoiceIds = $request->input('invoice_ids');
         $zip = new ZipArchive;
         $zipFileName = 'invoice.zip';
+        $tempDir = storage_path('app/temp/');
 
         if (empty($invoiceIds)) {
             return redirect()
                 ->route('invoice.index')
                 ->with('message', 'ダウンロードできる請求がありません');
+        }
+        if (!File::exists($tempDir)) {
+            File::makeDirectory($tempDir, 0755, true);
         }
         $invoices = $this->viewListInvoiceService->findByIds($invoiceIds)->get();
         if ($zip->open(storage_path($zipFileName), ZipArchive::CREATE) === TRUE) {
@@ -148,7 +153,7 @@ class InvoiceController extends Controller
                 $pdf = PDF::loadView('pdf.invoice', compact('invoice', 'data'));
 
                 // 一時ファイルにPDFを保存
-                $tempPath = storage_path('app/temp/' . $fileName);
+                $tempPath = $tempDir . $fileName;
                 $pdf->save($tempPath);
 
                 // ZIPファイルに追加
