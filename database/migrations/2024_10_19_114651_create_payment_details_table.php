@@ -13,16 +13,18 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('invoices', function (Blueprint $table) {
+        Schema::create('payment_details', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('company_id')
+            $table->foreignId('invoice_id')
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->string('title')->comment('請求タイトル');
-            $table->integer('billing_year')->comment('請求年');
-            $table->integer('billing_month')->comment('請求月');
-            $table->integer('status')->comment('請求ステータス');
+            $table->foreignId('payment_category_id')
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->date('payment_date')->nullable()->comment('入金日');
+            $table->integer('amount')->comment('入金額');
             $table->text('note')->nullable()->comment('備考');
             $table->timestamps();
         });
@@ -35,6 +37,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('invoices');
+        Schema::dropIfExists('payment_details');
     }
 };

@@ -6,6 +6,7 @@ namespace Database\Seeders;
 
 use App\Models\Company;
 use App\Models\Invoice;
+use App\Models\PaymentDetail;
 use App\Models\Posting;
 use Illuminate\Database\Seeder;
 
