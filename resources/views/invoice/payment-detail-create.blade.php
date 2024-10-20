@@ -65,7 +65,7 @@
                                         <select name="payment_category_id" class="block text-sm font-medium w-full bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                             <option value=""></option>
                                             @foreach ($paymentCategories as $paymentCategory)
-                                            <option value="{{$paymentCategory->id}}" @if(old('payment_category_id') === $paymentCategory->id) selected @endif>{{$paymentCategory->name}}</option>
+                                            <option value="{{$paymentCategory->id}}" @if(old('payment_category_id') == $paymentCategory->id) selected @endif>{{$paymentCategory->name}}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -92,7 +92,7 @@
                             </div>
                         </div>
                         <div class="flex items-center gap-3">
-                            <button type="button" onclick="location.href='{{ route('posting.create') }}'" class="text-white bg-gray-600 hover:bg-gray-800 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-gray-700 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800">掲載へ戻る</button>
+                            <button type="button" onclick="location.href='{{ route('invoice.index') }}'" class="text-white bg-gray-600 hover:bg-gray-800 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-gray-700 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800">請求一覧へ</button>
                             <button type="submit" class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-blue-700 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">登録</button>
                         </div>
                     </form>
