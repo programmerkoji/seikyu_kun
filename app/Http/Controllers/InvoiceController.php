@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Repositories\InvoiceRepository;
+use App\Http\Repositories\PaymentCategoryRepository;
 use App\Http\Requests\InvoiceRequest;
 use App\Http\Services\InvoiceDownloadPDFService;
 use App\Http\Services\PostingInvoiceService;
@@ -35,12 +36,18 @@ class InvoiceController extends Controller
      */
     protected $postingInvoiceService;
 
+    /**
+     * @var PaymentCategoryRepository
+     */
+    protected $paymentCategoryRepository;
+
     public function __construct()
     {
         $this->viewListInvoiceService = new ViewListInvoiceService();
         $this->invoiceDownloadPDFService = new InvoiceDownloadPDFService();
         $this->invoiceRepository = new InvoiceRepository();
         $this->postingInvoiceService = new PostingInvoiceService();
+        $this->paymentCategoryRepository = new PaymentCategoryRepository();
     }
 
     public function index(Request $request)
@@ -165,10 +172,21 @@ class InvoiceController extends Controller
         return response()->download(storage_path($zipFileName))->deleteFileAfterSend(true);
     }
 
+    /**
+     * @param int $invoiceId
+     * @return void
+     */
     public function paymentDetails($invoiceId)
     {
         $invoice = $this->viewListInvoiceService->findByOne($invoiceId, []);
         $paymentDetails = $invoice->paymentDetails;
         return view('invoice.payment-detail', compact('invoice', 'paymentDetails'));
+    }
+
+    public function paymentDetailCreate($invoiceId)
+    {
+        $invoice = $this->viewListInvoiceService->findByOne($invoiceId, []);
+        $paymentCategories = $this->paymentCategoryRepository->getAll();
+        return view('invoice.payment-detail-create', compact('invoice', 'paymentCategories'));
     }
 }

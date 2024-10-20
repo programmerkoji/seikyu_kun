@@ -35,10 +35,11 @@ Route::middleware('auth')->group(function () {
     Route::resource('/invoice', InvoiceController::class);
     Route::get('/invoice/{invoice}/pdf', [InvoiceController::class, 'downloadPDF'])->name('invoice.downloadPDF');
     Route::get('/invoice/{invoice}/payment-details/', [InvoiceController::class, 'paymentDetails'])->name('invoice.paymentDetails');
+    Route::get('/invoice/{invoice}/payment-detail/create', [InvoiceController::class, 'paymentDetailCreate'])->name('invoice.paymentDetailCreate');
     Route::post('/invoice/download-multiple', [InvoiceController::class, 'downloadMultiplePDFs'])->name('invoice.downloadMultiplePDFs');
     Route::resource('/posting', PostingController::class);
     Route::resource('/product', ProductController::class)->except('show');
-    Route::get('/autocomplete', [AutocompleteController::class, 'company']);
+    Route::post('/payment-detail', [PaymentDetailController::class, 'store'])->name('paymentDetail.store');
 });
 
 require __DIR__.'/auth.php';

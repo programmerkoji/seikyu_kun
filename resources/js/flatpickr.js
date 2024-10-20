@@ -6,3 +6,8 @@ flatpickr("#posting_start", {
     locale: Japanese,
     dateFormat: "Y-m-d",
 });
+
+flatpickr("#payment_date", {
+    locale: Japanese,
+    dateFormat: "Y-m-d",
+});
