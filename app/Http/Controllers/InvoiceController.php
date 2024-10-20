@@ -164,4 +164,11 @@ class InvoiceController extends Controller
 
         return response()->download(storage_path($zipFileName))->deleteFileAfterSend(true);
     }
+
+    public function paymentDetails($invoiceId)
+    {
+        $invoice = $this->viewListInvoiceService->findByOne($invoiceId, []);
+        $paymentDetails = $invoice->paymentDetails;
+        return view('invoice.payment-detail', compact('invoice', 'paymentDetails'));
+    }
 }

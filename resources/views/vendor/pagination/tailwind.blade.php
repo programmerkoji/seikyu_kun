@@ -21,7 +21,7 @@
         @endif
     </div>
 
-    <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between gap-2 overflow-x-scroll">
+    <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between gap-2 overflow-auto">
         <div>
             <p class="text-sm text-gray-700 leading-5 whitespace-nowrap">
                     <span class="font-medium">{{ $paginator->total() }}件中</span>

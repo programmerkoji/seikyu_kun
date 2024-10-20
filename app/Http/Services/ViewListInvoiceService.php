@@ -35,7 +35,7 @@ class ViewListInvoiceService
 
     public function all()
     {
-        return $this->invoiceRepository->getAll(['company', 'postings'])->orderBy('created_at', 'desc');
+        return $this->invoiceRepository->getAll(['company', 'postings'])->orderBy('billing_year', 'desc')->orderBy('billing_month', 'desc');
     }
 
     public function search($searchYear, $searchMonth, $keyword)
@@ -55,7 +55,7 @@ class ViewListInvoiceService
         if ($searchMonth) {
             $query->where('billing_month', $searchMonth);
         }
-        return $query->orderBy('created_at', 'desc');
+        return $query->orderBy('billing_year', 'desc')->orderBy('billing_month', 'desc');
     }
 
     public function getDistinctYears()

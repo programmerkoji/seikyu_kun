@@ -6,6 +6,8 @@ use App\Http\Controllers\PostingController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AutocompleteController;
+use App\Http\Controllers\PaymentCategoryController;
+use App\Http\Controllers\PaymentDetailController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,6 +34,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/company/import', [CompanyController::class, 'import'])->name('company.import');
     Route::resource('/invoice', InvoiceController::class);
     Route::get('/invoice/{invoice}/pdf', [InvoiceController::class, 'downloadPDF'])->name('invoice.downloadPDF');
+    Route::get('/invoice/{invoice}/payment-details/', [InvoiceController::class, 'paymentDetails'])->name('invoice.paymentDetails');
     Route::post('/invoice/download-multiple', [InvoiceController::class, 'downloadMultiplePDFs'])->name('invoice.downloadMultiplePDFs');
     Route::resource('/posting', PostingController::class);
     Route::resource('/product', ProductController::class)->except('show');
