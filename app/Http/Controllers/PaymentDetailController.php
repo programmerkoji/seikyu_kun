@@ -41,7 +41,7 @@ class PaymentDetailController extends Controller
         try {
             $this->paymentDetailRepository->create($request->toArray());
             return redirect()
-            ->route('invoice.index')
+            ->route('invoice.paymentDetails', ['invoice' => $invoice->id])
             ->with('message', '入金情報を登録しました');
         } catch (\Exception $e) {
             Log::channel('daily')->error('エラーメッセージ', [

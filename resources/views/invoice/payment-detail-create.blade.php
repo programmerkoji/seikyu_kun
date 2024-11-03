@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">入金詳細 - 新規登録</h2>
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">入金管理 - 新規登録</h2>
     </x-slot>
 
     <div class="py-12">
@@ -8,30 +8,60 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     <h3 class="font-semibold text-lg text-gray-600 leading-tight mb-4">登録先請求情報</h3>
-                    <dl class="flex flex-col gap-2 md:flex-row">
-                        <div>
-                            <dt class="text-sm font-medium text-gray-900 dark:text-white mb-1">企業名</dt>
-                            <dd class="block text-sm font-medium w-full bg-gray-50 border-b border-gray-400 text-gray-900 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                {{$invoice->company->name}}
-                            </dd>
+                    <dl>
+                        <div class="flex flex-col gap-2 md:flex-row mb-3">
+                            <div class=" flex-shrink">
+                                <dt class="px-2.5 text-sm font-medium text-gray-900 dark:text-white mb-1">企業No.</dt>
+                                <dd class="block text-sm font-medium w-full bg-gray-50 border-b border-gray-400 text-gray-900 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                    {{$invoice->company->id}}
+                                </dd>
+                            </div>
+                            <div class="flex-grow">
+                                <dt class="px-2.5 text-sm font-medium text-gray-900 dark:text-white mb-1">企業名</dt>
+                                <dd class="block text-sm font-medium w-full bg-gray-50 border-b border-gray-400 text-gray-900 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                    {{$invoice->company->name}}
+                                </dd>
+                            </div>
+                            <div class="flex-shrink">
+                                <dt class="px-2.5 text-sm font-medium text-gray-900 dark:text-white mb-1">入金ステータス</dt>
+                                <dd class="md:p-2.5 flex justify-center items-center">
+                                    <span class="{{config('constants.statusBgColors')[$invoice->status]}} text-sm text-gray-50 max-w-full md:w-20 py-1 text-center block">
+                                        {{ config('constants.billingStatus')[$invoice->status] }}
+                                    </span>
+                                </dd>
+                            </div>
                         </div>
-                        <div>
-                            <dt class="text-sm font-medium text-gray-900 dark:text-white mb-1">請求タイトル</dt>
-                            <dd class="block text-sm font-medium w-full bg-gray-50 border-b border-gray-400 text-gray-900 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                {{$invoice->title}}
-                            </dd>
-                        </div>
-                        <div>
-                            <dt class="text-sm font-medium text-gray-900 dark:text-white mb-1">請求年月</dt>
-                            <dd class="block text-sm font-medium w-full bg-gray-50 border-b border-gray-400 text-gray-900 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                {{$invoice->billing_year}}年{{$invoice->billing_month}}月
-                            </dd>
-                        </div>
-                        <div>
-                            <dt class="text-sm font-medium text-gray-900 dark:text-white mb-1">請求金額（税抜）</dt>
-                            <dd class="block text-sm font-medium w-full bg-gray-50 border-b border-gray-400 text-gray-900 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                円
-                            </dd>
+                        <div class="flex flex-col gap-2 md:flex-row">
+                            <div class="flex-shrink">
+                                <dt class="px-2.5 text-sm font-medium text-gray-900 dark:text-white mb-1">請求年月</dt>
+                                <dd class="block text-sm font-medium w-full bg-gray-50 border-b border-gray-400 text-gray-900 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                    {{$invoice->billing_year}}年{{$invoice->billing_month}}月
+                                </dd>
+                            </div>
+                            <div class="flex-grow">
+                                <dt class="px-2.5 text-sm font-medium text-gray-900 dark:text-white mb-1">請求タイトル</dt>
+                                <dd class="block text-sm font-medium w-full bg-gray-50 border-b border-gray-400 text-gray-900 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                    {{$invoice->title}}
+                                </dd>
+                            </div>
+                            <div class="flex-shrink">
+                                <dt class="px-2.5 text-sm font-medium text-gray-900 dark:text-white mb-1 md:text-right">金額（税抜）</dt>
+                                <dd class="block text-sm font-medium w-full bg-gray-50 border-b border-gray-400 text-gray-900 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 text-right">
+                                    {{$totalPriceData['formattedTotalPrice']}}円
+                                </dd>
+                            </div>
+                            <div class="flex-shrink">
+                                <dt class="px-2.5 text-sm font-medium text-gray-900 dark:text-white mb-1 md:text-right">消費税</dt>
+                                <dd class="block text-sm font-medium w-full bg-gray-50 border-b border-gray-400 text-gray-900 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 text-right">
+                                    {{$totalPriceData['formattedTaxAmount']}}円
+                                </dd>
+                            </div>
+                            <div class="flex-shrink">
+                                <dt class="px-2.5 text-sm font-medium text-gray-900 dark:text-white mb-1 md:text-right">請求金額</dt>
+                                <dd class="block text-sm font-medium w-full bg-gray-50 border-b border-gray-400 text-gray-900 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 text-right">
+                                    {{$totalPriceData['formattedTotalPriceIncludingTax']}}円
+                                </dd>
+                            </div>
                         </div>
                     </dl>
                 </div>
@@ -92,7 +122,7 @@
                             </div>
                         </div>
                         <div class="flex items-center gap-3">
-                            <button type="button" onclick="location.href='{{ route('invoice.index') }}'" class="text-white bg-gray-600 hover:bg-gray-800 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-gray-700 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800">請求一覧へ</button>
+                            <button type="button" onclick="location.href='{{ route('invoice.paymentDetails', [$invoice->id]) }}'" class="text-white bg-gray-600 hover:bg-gray-800 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-gray-700 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800">入金一覧へ</button>
                             <button type="submit" class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-blue-700 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">登録</button>
                         </div>
                     </form>

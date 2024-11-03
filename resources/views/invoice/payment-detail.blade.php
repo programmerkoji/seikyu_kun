@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">入金管理</h2>
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">入金管理 - 詳細</h2>
     </x-slot>
 
     <div class="py-12">
@@ -45,9 +45,21 @@
                                 </dd>
                             </div>
                             <div class="flex-shrink">
-                                <dt class="px-2.5 text-sm font-medium text-gray-900 dark:text-white mb-1 md:text-right">請求金額（税抜）</dt>
+                                <dt class="px-2.5 text-sm font-medium text-gray-900 dark:text-white mb-1 md:text-right">金額（税抜）</dt>
                                 <dd class="block text-sm font-medium w-full bg-gray-50 border-b border-gray-400 text-gray-900 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 text-right">
-                                    円
+                                    {{$totalPriceData['formattedTotalPrice']}}円
+                                </dd>
+                            </div>
+                            <div class="flex-shrink">
+                                <dt class="px-2.5 text-sm font-medium text-gray-900 dark:text-white mb-1 md:text-right">消費税</dt>
+                                <dd class="block text-sm font-medium w-full bg-gray-50 border-b border-gray-400 text-gray-900 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 text-right">
+                                    {{$totalPriceData['formattedTaxAmount']}}円
+                                </dd>
+                            </div>
+                            <div class="flex-shrink">
+                                <dt class="px-2.5 text-sm font-medium text-gray-900 dark:text-white mb-1 md:text-right">請求金額</dt>
+                                <dd class="block text-sm font-medium w-full bg-gray-50 border-b border-gray-400 text-gray-900 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 text-right">
+                                    {{$totalPriceData['formattedTotalPriceIncludingTax']}}円
                                 </dd>
                             </div>
                         </div>

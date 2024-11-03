@@ -184,13 +184,15 @@ class InvoiceController extends Controller
         $paymentDetails = $invoice->paymentDetails;
         $paymentCategories = $invoice->paymentDetails->pluck('paymentCategory')->toArray();
         $paymentCategoryNames = array_column($paymentCategories, 'name');
-        return view('invoice.payment-detail', compact('invoice', 'paymentDetails', 'paymentCategoryNames'));
+        $totalPriceData = $this->invoiceDownloadPDFService->getTotalPriceWithTax($invoice);
+        return view('invoice.payment-detail', compact('invoice', 'paymentDetails', 'paymentCategoryNames', 'totalPriceData'));
     }
 
     public function paymentDetailCreate($invoiceId)
     {
         $invoice = $this->viewListInvoiceService->findByOne($invoiceId, ['paymentDetails']);
         $paymentCategories = $this->paymentCategoryRepository->getAll();
-        return view('invoice.payment-detail-create', compact('invoice', 'paymentCategories'));
+        $totalPriceData = $this->invoiceDownloadPDFService->getTotalPriceWithTax($invoice);
+        return view('invoice.payment-detail-create', compact('invoice', 'paymentCategories', 'totalPriceData'));
     }
 }
