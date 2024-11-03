@@ -26,6 +26,7 @@ class InvoiceFactory extends Factory
             'title' => $this->faker->title,
             'billing_year' => $this->faker->randomElement([2023, 2024]),
             'billing_month' => $this->faker->randomElement([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]),
+            'status' => $this->faker->randomElement([1, 2, 3]),
             'note' => $this->faker->optional(0.3)->realText(),
         ];
     }

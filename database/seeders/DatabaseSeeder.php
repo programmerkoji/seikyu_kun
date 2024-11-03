@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UserSeeder::class,
             ProductSeeder::class,
+            PaymentCategorySeeder::class,
             // PostingSeeder::class,
         ]);
         Invoice::factory(100)->create();

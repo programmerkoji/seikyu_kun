@@ -91,8 +91,18 @@ class ViewListInvoiceService
         ]);
     }
 
-    public function getCompanyInfoByPosting($companyId)
+    public function getCompanyInfoByPosting(int $companyId)
     {
         return $this->companyRepository->findByOne($companyId);
+    }
+
+    public function getStatusBgColors(object $invoices)
+    {
+        $statuses = $invoices->pluck('status')->toArray();
+        $statusBgColors = [];
+        foreach ($statuses as $status) {
+            $statusBgColors[] = config('constants.statusBgColors')[$status];
+        }
+        return $statusBgColors;
     }
 }

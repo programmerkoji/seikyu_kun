@@ -64,7 +64,9 @@ class InvoiceController extends Controller
         }
         $totalInvoiceIds = $query->pluck('id');
         $invoices = $query->paginate(config('constants.pagination'))->withQueryString();
-        return view('invoice.index', compact('invoices', 'years', 'months', 'searchYear', 'searchMonth', 'totalInvoiceIds'));
+
+        $statusBgColors = $this->viewListInvoiceService->getStatusBgColors($invoices);
+        return view('invoice.index', compact('invoices', 'years', 'months', 'searchYear', 'searchMonth', 'totalInvoiceIds', 'statusBgColors'));
     }
 
     public function show($invoice_id)
@@ -178,14 +180,16 @@ class InvoiceController extends Controller
      */
     public function paymentDetails($invoiceId)
     {
-        $invoice = $this->viewListInvoiceService->findByOne($invoiceId, []);
+        $invoice = $this->viewListInvoiceService->findByOne($invoiceId, ['paymentDetails', 'paymentDetails.paymentCategory']);
         $paymentDetails = $invoice->paymentDetails;
-        return view('invoice.payment-detail', compact('invoice', 'paymentDetails'));
+        $paymentCategories = $invoice->paymentDetails->pluck('paymentCategory')->toArray();
+        $paymentCategoryNames = array_column($paymentCategories, 'name');
+        return view('invoice.payment-detail', compact('invoice', 'paymentDetails', 'paymentCategoryNames'));
     }
 
     public function paymentDetailCreate($invoiceId)
     {
-        $invoice = $this->viewListInvoiceService->findByOne($invoiceId, []);
+        $invoice = $this->viewListInvoiceService->findByOne($invoiceId, ['paymentDetails']);
         $paymentCategories = $this->paymentCategoryRepository->getAll();
         return view('invoice.payment-detail-create', compact('invoice', 'paymentCategories'));
     }

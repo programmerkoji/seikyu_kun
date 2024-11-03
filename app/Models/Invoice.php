@@ -15,6 +15,7 @@ class Invoice extends Model
         'title',
         'billing_year',
         'billing_month',
+        'status',
         'note',
     ];
 
