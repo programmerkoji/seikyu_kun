@@ -69,8 +69,8 @@
                     <div class="mb-4 flex">
                         <h3 class="font-semibold text-lg text-gray-600 leading-tight">入金一覧</h3>
                     </div>
+                    @if (isset($paymentDetails))
                     <div class="relative overflow-x-auto mb-4">
-                        @if (isset($paymentDetails))
                         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                 <tr>
@@ -101,10 +101,14 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        @else
-                        <p class="font-semibold text-sm text-orange-600 leading-tight">まだ入金の記録がありません。</p>
-                        @endif
                     </div>
+                    <dl class="flex justify-end items-center gap-4 text-sm text-gray-700 dark:text-gray-400 px-6 py-3 font-bold">
+                        <dt>入金合計</dt>
+                        <dd>{{number_format($paymentDetails->pluck('amount')->sum())}}円</dd>
+                    </dl>
+                    @else
+                    <p class="font-semibold text-sm text-orange-600 leading-tight">まだ入金の記録がありません。</p>
+                    @endif
                     <div>
                         <button type="button" onclick="location.href='{{ route('invoice.paymentDetailCreate', ['invoice' => $invoice->id]) }}'" class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-blue-700 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">入金登録</button>
                     </div>

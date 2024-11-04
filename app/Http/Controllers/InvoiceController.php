@@ -182,6 +182,7 @@ class InvoiceController extends Controller
     {
         $invoice = $this->viewListInvoiceService->findByOne($invoiceId, ['paymentDetails', 'paymentDetails.paymentCategory']);
         $paymentDetails = $invoice->paymentDetails;
+        $amountArray = $paymentDetails->pluck('amount');
         $paymentCategories = $invoice->paymentDetails->pluck('paymentCategory')->toArray();
         $paymentCategoryNames = array_column($paymentCategories, 'name');
         $totalPriceData = $this->invoiceDownloadPDFService->getTotalPriceWithTax($invoice);
