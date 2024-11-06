@@ -35,7 +35,7 @@
     "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-v4compatibility.woff2"
   },
   "resources/css/app.css": {
-    "file": "assets/app-416bf877.css",
+    "file": "assets/app-74a4eb13.css",
     "isEntry": true,
     "src": "resources/css/app.css"
   },
@@ -68,7 +68,7 @@
     "css": [
       "assets/flatpickr-21fdfc57.css"
     ],
-    "file": "assets/flatpickr-7c72fd1d.js",
+    "file": "assets/flatpickr-ee6014e8.js",
     "imports": [
       "__commonjsHelpers-725317a4.js"
     ],

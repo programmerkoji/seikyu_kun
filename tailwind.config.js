@@ -16,5 +16,11 @@ module.exports = {
         },
     },
 
+    safelist: [
+        'bg-red-500',
+        'bg-yellow-500',
+        'bg-gray-400',
+    ],
+
     plugins: [require('@tailwindcss/forms')],
 };

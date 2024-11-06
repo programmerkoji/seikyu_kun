@@ -116,7 +116,6 @@
             </div>
         </div>
     </div>
-    </div>
     <script>
         function deletePost(e) {
             'use strict';
