@@ -109,7 +109,8 @@
                     @else
                     <p class="font-semibold text-sm text-orange-600 leading-tight">まだ入金の記録がありません。</p>
                     @endif
-                    <div>
+                    <div class="flex items-center gap-2">
+                        <button type="button" onclick="location.href='{{ route('invoice.index') }}'" class="text-white bg-gray-600 hover:bg-gray-800 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-gray-700 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800">戻る</button>
                         <button type="button" onclick="location.href='{{ route('invoice.paymentDetailCreate', ['invoice' => $invoice->id]) }}'" class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-blue-700 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">入金登録</button>
                     </div>
                 </div>

@@ -114,7 +114,7 @@ class InvoiceController extends Controller
     {
         try {
             $this->invoiceRepository->update($request->toArray(), $invoiceId, []);
-            return redirect()->route('invoice.show', ['invoice' => $invoiceId])->with('message', '編集が完了しました。');
+            return redirect()->route('invoice.index')->with('message', '編集が完了しました。');
         } catch (\Exception $e) {
             Log::channel('daily')->error('エラーメッセージ', [
                 'exception' => $e,
