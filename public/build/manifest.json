@@ -74,5 +74,10 @@
     ],
     "isEntry": true,
     "src": "resources/js/flatpickr.js"
+  },
+  "resources/js/micromodal.js": {
+    "file": "assets/micromodal-b6c234b9.js",
+    "isEntry": true,
+    "src": "resources/js/micromodal.js"
   }
 }
