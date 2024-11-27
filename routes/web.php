@@ -39,6 +39,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/invoice/download-multiple', [InvoiceController::class, 'downloadMultiplePDFs'])->name('invoice.downloadMultiplePDFs');
     Route::resource('/posting', PostingController::class);
     Route::resource('/product', ProductController::class)->except('show');
+    Route::get('/autocomplete', [AutocompleteController::class, 'company']);
     Route::post('/payment-detail', [PaymentDetailController::class, 'store'])->name('paymentDetail.store');
 });
 
