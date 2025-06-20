@@ -140,36 +140,54 @@ class InvoiceController extends Controller
 
     public function downloadMultiplePDFs(Request $request)
     {
+        $startTotal = microtime(true);
         $invoiceIds = $request->input('invoice_ids');
         $zip = new ZipArchive;
         $zipFileName = 'invoice.zip';
-        $tempDir = storage_path('app/temp/');
+        // $tempDir = storage_path('app/temp/');
+        $tempZipPath = storage_path($zipFileName);
 
         if (empty($invoiceIds)) {
             return redirect()
                 ->route('invoice.index')
                 ->with('message', 'ダウンロードできる請求がありません');
         }
-        if (!File::exists($tempDir)) {
-            File::makeDirectory($tempDir, 0755, true);
-        }
+        // if (!File::exists($tempDir)) {
+        //     File::makeDirectory($tempDir, 0755, true);
+        // }
+
+        $startFetch = microtime(true);
         $invoices = $this->viewListInvoiceService->findByIds($invoiceIds)->get();
+        $endFetch = microtime(true);
+        Log::info("🔸請求書データ取得時間: " . round($endFetch - $startFetch, 3) . "秒");
+
+        $startZip = microtime(true);
         if ($zip->open(storage_path($zipFileName), ZipArchive::CREATE) === TRUE) {
             foreach ($invoices as $invoice) {
+                $startLoop = microtime(true);
+
                 $data['endOfMonth'] = $this->invoiceDownloadPDFService->getEndOfMonth($invoice);
                 $data += $this->invoiceDownloadPDFService->getTotalPriceWithTax($invoice);
                 $fileName = $this->invoiceDownloadPDFService->generateFilename($invoice);
+
+                $startPDF = microtime(true);
                 $pdf = PDF::loadView('pdf.invoice', compact('invoice', 'data'));
+                $pdfContent = $pdf->output(); // バイナリデータ
+                $zip->addFromString($fileName, $pdfContent);
+                $endPDF = microtime(true);
+                Log::info("PDF生成時間（{$fileName}）: " . round($endPDF - $startPDF, 3) . "秒");
 
-                // 一時ファイルにPDFを保存
-                $tempPath = $tempDir . $fileName;
-                $pdf->save($tempPath);
-
-                // ZIPファイルに追加
-                $zip->addFile($tempPath, $fileName);
+                $endLoop = microtime(true);
+                Log::info("🔁ループ全体時間（{$fileName}）: " . round($endLoop - $startLoop, 3) . "秒");
             }
             $zip->close();
         }
+        $endZip = microtime(true);
+        Log::info("🗜 ZIP生成時間: " . round($endZip - $startZip, 3) . "秒");
+
+
+        $endTotal = microtime(true);
+        Log::info("トータル処理時間: " . round($endTotal - $startTotal, 3) . "秒");
 
         return response()->download(storage_path($zipFileName))->deleteFileAfterSend(true);
     }
