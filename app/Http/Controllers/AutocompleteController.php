@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Repositories\CompanyRepository;
+use App\Repositories\CompanyRepository;
 use Illuminate\Http\Request;
 
 class AutocompleteController extends Controller

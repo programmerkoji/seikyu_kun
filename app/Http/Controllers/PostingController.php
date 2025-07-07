@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Repositories\CompanyRepository;
-use App\Http\Repositories\PostingRepository;
-use App\Http\Repositories\ProductRepository;
+use App\Repositories\CompanyRepository;
+use App\Repositories\PostingRepository;
+use App\Repositories\ProductRepository;
 use App\Http\Requests\PostingRequest;
-use App\Http\Services\PostingInvoiceService;
-use App\Http\Services\ViewListPostingService;
+use App\Services\PostingInvoiceService;
+use App\Services\ViewListPostingService;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;

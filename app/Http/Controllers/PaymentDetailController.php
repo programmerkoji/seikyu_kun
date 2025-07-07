@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Repositories\InvoiceRepository;
-use App\Http\Repositories\PaymentDetailRepository;
+use App\Repositories\InvoiceRepository;
+use App\Repositories\PaymentDetailRepository;
 use App\Http\Requests\PaymentDetailRequest;
 use Carbon\Carbon;
 use Illuminate\Http\Request;

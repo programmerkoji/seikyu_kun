@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Services;
+namespace App\Services;
 
-use App\Http\Repositories\CompanyRepository;
-use App\Http\Repositories\PostingRepository;
+use App\Repositories\CompanyRepository;
+use App\Repositories\PostingRepository;
 
 class ViewListPostingService
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Services;
+namespace App\Services;
 
-use App\Http\Repositories\CompanyRepository;
+use App\Repositories\CompanyRepository;
 
 class ViewListCompanyService
 {

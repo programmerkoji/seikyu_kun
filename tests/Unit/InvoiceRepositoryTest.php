@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use App\Http\Repositories\InvoiceRepository;
+use App\Repositories\InvoiceRepository;
 use App\Models\Company;
 use App\Models\Invoice;
 use Illuminate\Foundation\Testing\RefreshDatabase;

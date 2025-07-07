@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Repositories\ProductRepository;
+use App\Repositories\ProductRepository;
 use App\Http\Requests\ProductRequest;
-use App\Http\Services\ViewListProductService;
+use App\Services\ViewListProductService;
 
 class ProductController extends Controller
 {

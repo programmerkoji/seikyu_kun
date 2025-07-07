@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Repositories\InvoiceRepository;
-use App\Http\Repositories\PaymentCategoryRepository;
+use App\Repositories\InvoiceRepository;
+use App\Repositories\PaymentCategoryRepository;
 use App\Http\Requests\InvoiceRequest;
-use App\Http\Services\InvoiceDownloadPDFService;
-use App\Http\Services\PostingInvoiceService;
-use App\Http\Services\ViewListInvoiceService;
+use App\Services\InvoiceDownloadPDFService;
+use App\Services\PostingInvoiceService;
+use App\Services\ViewListInvoiceService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;

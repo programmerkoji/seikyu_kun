@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Services;
+namespace App\Services;
 
-use App\Http\Repositories\InvoiceRepository;
+use App\Repositories\InvoiceRepository;
 use Carbon\Carbon;
 
 class InvoiceDownloadPDFService

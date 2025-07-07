@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Repositories\CompanyRepository;
+use App\Repositories\CompanyRepository;
 use App\Http\Requests\CompanyRequest;
 use App\Http\Requests\ImportCsvRequest;
-use App\Http\Services\ViewListCompanyService;
+use App\Services\ViewListCompanyService;
 use App\Imports\CompaniesImport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
