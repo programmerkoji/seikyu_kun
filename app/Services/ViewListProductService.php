@@ -2,21 +2,21 @@
 
 namespace App\Services;
 
-use App\Repositories\ProductRepository;
+use App\Repositories\Interfaces\ProductRepositoryInterface;
 
 class ViewListProductService
 {
     /**
-     * @var ProductRepository
+     * @var ProductRepositoryInterface
      */
     protected $productRepository;
 
     /**
-     * @param ProductRepository $procuctRepository
+     * @param ProductRepositoryInterface $productRepository
      */
-    public function __construct()
+    public function __construct(ProductRepositoryInterface $productRepository)
     {
-        $this->productRepository = new ProductRepository();
+        $this->productRepository = $productRepository;
     }
 
     /**

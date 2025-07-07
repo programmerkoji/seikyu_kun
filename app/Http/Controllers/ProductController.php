@@ -10,15 +10,13 @@ class ProductController extends Controller
 {
     /**
      * @var ViewListProductService
+     * @var ProductRepository
      */
-    protected $viewListProductService;
-    protected $productRepository;
-
-    public function __construct()
-    {
-        $this->viewListProductService = new ViewListProductService();
-        $this->productRepository = new ProductRepository();
-    }
+    public function __construct(
+        protected ViewListProductService $viewListProductService,
+        protected ProductRepository $productRepository
+    )
+    {}
 
     /**
      * @return \Illuminate\Contracts\View\View

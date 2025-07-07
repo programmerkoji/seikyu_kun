@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Repositories\CompanyRepository;
 use App\Repositories\PostingRepository;
-use App\Repositories\ProductRepository;
+use App\Repositories\Interfaces\ProductRepositoryInterface;
 use App\Http\Requests\PostingRequest;
 use App\Services\PostingInvoiceService;
 use App\Services\ViewListPostingService;
@@ -19,7 +19,7 @@ class PostingController extends Controller
      */
     protected $postingRepository;
     /**
-     * @var ProductRepository
+     * @var ProductRepositoryInterface
      */
     protected $productRepository;
     /**
@@ -38,7 +38,7 @@ class PostingController extends Controller
     public function __construct()
     {
         $this->postingRepository = new PostingRepository();
-        $this->productRepository = new ProductRepository();
+        $this->productRepository = new ProductRepositoryInterface();
         $this->companyRepository = new CompanyRepository();
         $this->viewListPostingService = new ViewListPostingService();
         $this->postingInvoiceService = new PostingInvoiceService();
