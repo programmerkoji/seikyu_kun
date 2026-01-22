@@ -42,6 +42,7 @@ class PostingInvoiceService
                 $this->postingRepository->create($postingData);
             } else {
                 $invoiceData['company_id'] = $postingData['company_id'];
+                $invoiceData['status'] = array_search('未入金', config('constants.billingStatus'));
                 $invoice = $this->invoiceRepository->create($invoiceData);
                 $postingData['invoice_id'] = $invoice->id;
                 $this->postingRepository->create($postingData);
